@@ -6,7 +6,44 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz22HkdE0DdSqcN2eu4X
 const WA = 'https://wa.me/541140919506';
 const waMsg = t => `${WA}?text=${encodeURIComponent(t)}`;
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Share HTML ────────────────────────────────────────────────────────────────
+
+function shareHtml(nombre, descripcion, precio, seccion) {
+  const n = nombre.replace(/'/g,"&#39;");
+  const d = (descripcion||'').replace(/'/g,"&#39;");
+  const p = (precio||'').replace(/'/g,"&#39;");
+  const s = seccion;
+  return `
+  <div class="share-wrap">
+    <button class="share-btn" onclick="openShareMenu(this)" aria-label="Compartir">
+      <svg width="15" height="15"><use href="#ic-share"/></svg>
+      Compartir
+    </button>
+    <div class="share-menu" role="menu">
+      <button class="share-opt" onclick="shareVia('wa','${n}','${d}','${p}','${s}',this)">
+        <svg width="15" height="15"><use href="#ic-wa"/></svg> WhatsApp
+      </button>
+      <button class="share-opt" onclick="shareVia('tg','${n}','${d}','${p}','${s}',this)">
+        <svg width="15" height="15"><use href="#ic-tg"/></svg> Telegram
+      </button>
+      <button class="share-opt" onclick="shareVia('fb','${n}','${d}','${p}','${s}',this)">
+        <svg width="15" height="15"><use href="#ic-fb"/></svg> Facebook
+      </button>
+      <button class="share-opt" onclick="shareVia('x','${n}','${d}','${p}','${s}',this)">
+        <svg width="15" height="15"><use href="#ic-x"/></svg> X (Twitter)
+      </button>
+      <button class="share-opt" onclick="shareVia('email','${n}','${d}','${p}','${s}',this)">
+        <svg width="15" height="15"><use href="#ic-mail"/></svg> Email
+      </button>
+      <div class="share-opt-sep"></div>
+      <button class="share-opt" onclick="copyLink('${s}',this)">
+        <svg width="15" height="15"><use href="#ic-copy"/></svg> Copiar enlace
+      </button>
+    </div>
+  </div>`;
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function driveToImg(url) {
   if (!url) return '';
@@ -86,10 +123,13 @@ function renderPaquetes(items) {
           <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
           <span class="card-dur">${p.duracion || ''}</span>
         </div>
-        <a href="${waMsg(`Hola! Me interesa el paquete ${p.nombre}.`)}" class="btn-dest" target="_blank">
-          <svg width="15" height="15"><use href="#ic-wa"/></svg>
-          Ver más
-        </a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <a href="${waMsg(`Hola! Me interesa el paquete ${p.nombre}.`)}" class="btn-dest" target="_blank" style="flex:1;min-width:120px">
+            <svg width="15" height="15"><use href="#ic-wa"/></svg>
+            Ver más
+          </a>
+          ${shareHtml(p.nombre, p.descripcion, precio ? `${precio} p/p` : '', 'paquetes')}
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -124,10 +164,13 @@ function renderOfertas(items) {
           <span class="promo-new">${precioNuevo}</span>
         </div>
         ${countdownHtml(`o${i}`, o.fecha_vencimiento)}
-        <a href="${waMsg(`Hola! Vi la oferta de ${o.nombre} y me interesa.`)}" class="btn-dest" target="_blank">
-          <svg width="15" height="15"><use href="#ic-wa"/></svg>
-          Quiero esta oferta
-        </a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <a href="${waMsg(`Hola! Vi la oferta de ${o.nombre} y me interesa.`)}" class="btn-dest" target="_blank" style="flex:1;min-width:140px">
+            <svg width="15" height="15"><use href="#ic-wa"/></svg>
+            Quiero esta oferta
+          </a>
+          ${shareHtml(o.nombre, o.descripcion, precioNuevo, 'ofertas')}
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -159,10 +202,13 @@ function renderSalidas(items) {
         <div class="salida-cupos-n">${cuposN || s.cupos_disponibles}</div>
         <div class="salida-cupos-l">cupos</div>
       </div>
-      <a href="${waMsg(`Hola! Me interesa la salida grupal a ${s.destino}.`)}"
-         class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
-        <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
-      </a>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a href="${waMsg(`Hola! Me interesa la salida grupal a ${s.destino}.`)}"
+           class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
+          <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
+        </a>
+        ${shareHtml(s.destino, s.ruta, s.precio ? `${s.moneda||'USD'} ${Number(s.precio).toLocaleString('es-AR')} p/p` : '', 'salidas-grupales')}
+      </div>
     </div>`;
   }).join('');
 
@@ -201,11 +247,14 @@ function renderCircuitos(items) {
         <div class="card-foot">
           <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
         </div>
-        <a href="${waMsg(`Hola! Me interesa el circuito ${c.nombre}.`)}"
-           class="btn-dest" target="_blank" style="margin-top:14px">
-          <svg width="15" height="15"><use href="#ic-wa"/></svg>
-          Ver itinerario
-        </a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+          <a href="${waMsg(`Hola! Me interesa el circuito ${c.nombre}.`)}"
+             class="btn-dest" target="_blank" style="flex:1;min-width:130px">
+            <svg width="15" height="15"><use href="#ic-wa"/></svg>
+            Ver itinerario
+          </a>
+          ${shareHtml(c.nombre, c.ruta, precio, 'circuitos')}
+        </div>
       </div>
     </div>`;
   }).join('');
