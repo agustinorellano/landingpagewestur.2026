@@ -6,6 +6,26 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz22HkdE0DdSqcN2eu4X
 const WA = 'https://wa.me/541140919506';
 const waMsg = t => `${WA}?text=${encodeURIComponent(t)}`;
 
+function buildWaMsg(tipo, datos = {}) {
+  const url = window.location.href.split('#')[0];
+  const { nombre, descripcion, precio, moneda, duracion, fecha, ruta } = datos;
+  const precioStr = precio ? `\nPrecio desde: ${moneda || 'USD'} ${Number(precio).toLocaleString('es-AR')} p/p` : '';
+  const fechaStr = fecha ? `\nFecha de salida: ${fecha}` : '';
+  const rutaStr = ruta ? `\nRuta: ${ruta}` : '';
+  const durStr = duracion ? `\nDuracion: ${duracion}` : '';
+  const urlStr = `\nReferencia: ${url}`;
+
+  const plantillas = {
+    paquete: `Hola, estoy interesado en el paquete ${nombre}${durStr}${precioStr}${urlStr}\n\n¿Podrian brindarme mas informacion sobre disponibilidad, fechas y formas de pago?\n\nMuchas gracias.`,
+    oferta:  `Hola, quisiera consultar por la oferta ${nombre}${precioStr}${urlStr}\n\n¿Podrian enviarme mas informacion sobre esta promocion?\n\nMuchas gracias.`,
+    salida:  `Hola, estoy interesado en la salida grupal a ${nombre}${rutaStr}${fechaStr}${precioStr}${urlStr}\n\nQuisiera conocer los proximos cupos disponibles y que servicios incluye.\n\nMuchas gracias.`,
+    circuito:`Hola, quisiera recibir informacion sobre el circuito ${nombre}${rutaStr}${durStr}${precioStr}${urlStr}\n\n¿Podrian asesorarme sobre itinerario y disponibilidad?\n\nMuchas gracias.`,
+    auto:    `Hola, quisiera consultar por el alquiler de autos que vi en la pagina de Westur.${urlStr}\n\n¿Podrian indicarme disponibilidad y tarifas?\n\nMuchas gracias.`,
+  };
+
+  return `${WA}?text=${encodeURIComponent(plantillas[tipo] || plantillas.paquete)}`;
+}
+
 // ── Share HTML ────────────────────────────────────────────────────────────────
 
 function shareHtml(nombre, descripcion, precio, seccion) {
@@ -122,7 +142,7 @@ function renderPaquetes(items) {
           <span class="card-dur">${p.duracion || ''}</span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-          <a href="${waMsg(`Hola! Me interesa el paquete ${p.nombre}.`)}" class="btn-dest" target="_blank" style="flex:1;min-width:120px">
+          <a href="${buildWaMsg('paquete', {nombre:p.nombre, descripcion:p.descripcion, precio:p.precio, moneda:p.moneda, duracion:p.duracion})}" class="btn-dest" target="_blank" style="flex:1;min-width:120px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Ver más
           </a>
@@ -163,7 +183,7 @@ function renderOfertas(items) {
         </div>
         ${countdownHtml(`o${i}`, o.fecha_vencimiento)}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-          <a href="${waMsg(`Hola! Vi la oferta de ${o.nombre} y me interesa.`)}" class="btn-dest" target="_blank" style="flex:1;min-width:140px">
+          <a href="${buildWaMsg('oferta', {nombre:o.nombre, descripcion:o.descripcion, precio:o.precio_nuevo, moneda:o.moneda})}" class="btn-dest" target="_blank" style="flex:1;min-width:140px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Quiero esta oferta
           </a>
@@ -201,10 +221,11 @@ function renderSalidas(items) {
         <div class="salida-cupos-l">cupos</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <a href="${waMsg(`Hola! Me interesa la salida grupal a ${s.destino}.`)}"
+        <a href="${buildWaMsg('salida', {nombre:s.destino, ruta:s.ruta, precio:s.precio, moneda:s.moneda, fecha:`${s.dia} ${s.mes}`})}"
            class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
           <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
         </a>
+
         ${shareHtml(s.destino, s.ruta, s.precio ? `${s.moneda||'USD'} ${Number(s.precio).toLocaleString('es-AR')} p/p` : '', 'salidas-grupales')}
       </div>
     </div>`;
@@ -246,7 +267,7 @@ function renderCircuitos(items) {
           <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-          <a href="${waMsg(`Hola! Me interesa el circuito ${c.nombre}.`)}"
+          <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
              class="btn-dest" target="_blank" style="flex:1;min-width:130px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Ver itinerario
