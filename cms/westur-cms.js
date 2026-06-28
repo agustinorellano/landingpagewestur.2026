@@ -8,6 +8,20 @@ const waMsg = t => `${WA}?text=${encodeURIComponent(t)}`;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
+function driveToImg(url) {
+  if (!url) return '';
+  // /file/d/FILE_ID/
+  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m1) return `https://drive.google.com/thumbnail?id=${m1[1]}&sz=w800`;
+  // ?id=FILE_ID or &id=FILE_ID
+  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m2) return `https://drive.google.com/thumbnail?id=${m2[1]}&sz=w800`;
+  // /d/FILE_ID (lh3 or already converted)
+  const m3 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m3) return `https://drive.google.com/thumbnail?id=${m3[1]}&sz=w800`;
+  return url;
+}
+
 function imgOrPlaceholder(url, cls, label) {
   if (url && url.startsWith('http')) {
     return `<img src="${url}" alt="${label}" style="width:100%;height:100%;object-fit:cover;display:block">`;
@@ -47,8 +61,9 @@ function renderPaquetes(items) {
     const isFirst = i === 0;
     const imgH = isFirst ? '270px' : '210px';
     const span = isFirst ? 'grid-column:1/3' : '';
-    const imgHtml = p.imagen_1 && p.imagen_1.startsWith('http')
-      ? `<img src="${p.imagen_1}" alt="${p.nombre}" style="width:100%;height:${imgH};object-fit:cover;display:block">`
+    const imgSrc = driveToImg(p.imagen_1);
+    const imgHtml = imgSrc
+      ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:${imgH};object-fit:cover;display:block">`
       : `<div class="card-img-bg pi-tk" style="height:${imgH}"><span class="pi-label">${p.destino || p.nombre}</span></div>`;
 
     const badgeHtml = p.badge
@@ -98,7 +113,7 @@ function renderOfertas(items) {
 
     return `
     <div class="promo-card r">
-      <div class="promo-img pi-pc" style="${o.imagen_1 && o.imagen_1.startsWith('http') ? `background-image:url(${o.imagen_1});background-size:cover;background-position:center` : ''}">
+      <div class="promo-img pi-pc" style="${o.imagen_1 ? `background-image:url(${driveToImg(o.imagen_1)});background-size:cover;background-position:center` : ''}">
         ${o.badge_urgencia ? `<span class="promo-urg">${o.badge_urgencia}</span>` : ''}
       </div>
       <div class="promo-b">
@@ -167,8 +182,8 @@ function renderCircuitos(items) {
       .map((r, j) => j === 0 ? `<span>${r}</span>` : `<span class="circ-dot"></span><span>${r}</span>`)
       .join('');
 
-    const bgStyle = c.imagen_1 && c.imagen_1.startsWith('http')
-      ? `style="background-image:url(${c.imagen_1});background-size:cover;background-position:center"`
+    const bgStyle = c.imagen_1
+      ? `style="background-image:url(${driveToImg(c.imagen_1)});background-size:cover;background-position:center"`
       : 'class="circ-img bg-grupales"';
 
     return `
