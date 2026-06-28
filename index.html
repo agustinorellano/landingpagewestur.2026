@@ -50,6 +50,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:130px}
 :root{
   --v:#1F4D3A;
   --vh:#2A6048;
@@ -71,6 +72,17 @@ html{scroll-behavior:smooth}
 body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* ── NAVBAR ── */
+/* Category bar */
+.cat-bar{position:fixed;top:72px;left:0;right:0;z-index:99;background:#fff;border-bottom:1px solid var(--div);box-shadow:0 1px 4px rgba(0,0,0,.06);overflow-x:auto;scrollbar-width:none}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-bar-in{display:flex;align-items:center;gap:4px;padding:0 32px;min-width:max-content}
+.cat-item{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 18px;border:none;background:none;cursor:pointer;color:var(--txt2);font-size:11.5px;font-weight:500;border-bottom:2.5px solid transparent;transition:color .18s,border-color .18s;white-space:nowrap;text-decoration:none}
+.cat-item svg{color:var(--txt2);transition:color .18s}
+.cat-item:hover{color:var(--v)}
+.cat-item:hover svg{color:var(--v)}
+.cat-item.act{color:var(--v);border-bottom-color:var(--v)}
+.cat-item.act svg{color:var(--v)}
+@media(max-width:768px){.cat-bar-in{padding:0 16px}.cat-item{padding:10px 14px}}
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;display:flex;align-items:center;padding:0 40px;justify-content:space-between;transition:background .3s,box-shadow .3s}
 .nav.s{background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--div)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -716,6 +728,40 @@ footer{background:#0f1f18;padding:64px 40px 32px}
     Consultar por WhatsApp
   </a>
 </div>
+
+<!-- CATEGORY BAR -->
+<nav class="cat-bar" id="cat-bar">
+  <div class="cat-bar-in">
+    <a href="#paquetes" class="cat-item act" data-sec="paquetes">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.073a2.25 2.25 0 0 1-2.25 2.25h-12a2.25 2.25 0 0 1-2.25-2.25V14.15M8.25 9.75h7.5M12 3v9m0 0-3-3m3 3 3-3"/><rect x="3.75" y="9.75" width="16.5" height="4.5" rx="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Paquetes
+    </a>
+    <a href="#ofertas" class="cat-item" data-sec="ofertas">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></svg>
+      Ofertas
+    </a>
+    <a href="#salidas-grupales" class="cat-item" data-sec="salidas-grupales">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+      Salidas Grupales
+    </a>
+    <a href="#circuitos" class="cat-item" data-sec="circuitos">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>
+      Circuitos
+    </a>
+    <a href="#autos" class="cat-item" data-sec="autos">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+      Autos
+    </a>
+    <a href="#tipos" class="cat-item" data-sec="tipos">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></svg>
+      Destinos
+    </a>
+    <a href="#salidas-grupales" class="cat-item" data-sec="cruceros">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a.75.75 0 0 1 .75.75V6h2.25a.75.75 0 0 1 0 1.5H12.75v1.5h1.5a4.5 4.5 0 0 1 4.392 3.501l.398 1.991A3 3 0 0 1 16.5 18H7.5a3 3 0 0 1-2.54-4.508l.398-1.99A4.5 4.5 0 0 1 9.75 9h1.5V7.5H9a.75.75 0 0 1 0-1.5h2.25V3.75A.75.75 0 0 1 12 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 20.25h18"/></svg>
+      Cruceros
+    </a>
+  </div>
+</nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
@@ -2150,6 +2196,23 @@ window.addEventListener('scroll',()=>{
 <script src="cms/westur-cms.js"></script>
 <div class="toast" id="toast"></div>
 <script>
+// ── Category Bar active state ─────────────────────────────────────────────────
+const catItems = document.querySelectorAll('.cat-item');
+const catSections = ['paquetes','ofertas','salidas-grupales','circuitos','autos','tipos'];
+function updateCatBar() {
+  let current = 'paquetes';
+  for (const id of catSections) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    if (el.getBoundingClientRect().top <= 160) current = id;
+  }
+  catItems.forEach(item => {
+    item.classList.toggle('act', item.dataset.sec === current);
+  });
+}
+window.addEventListener('scroll', updateCatBar, { passive: true });
+updateCatBar();
+
 // ── Share System ──────────────────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
