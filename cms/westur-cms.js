@@ -95,13 +95,11 @@ function renderPaquetes(items) {
   if (!grid || !items.length) return;
 
   grid.innerHTML = items.map((p, i) => {
-    const isFirst = i === 0;
-    const imgH = isFirst ? '270px' : '210px';
-    const span = isFirst ? 'grid-column:1/3' : '';
+    const span = '';
     const imgSrc = driveToImg(p.imagen_1);
     const imgHtml = imgSrc
-      ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:${imgH};object-fit:cover;display:block">`
-      : `<div class="card-img-bg pi-tk" style="height:${imgH}"><span class="pi-label">${p.destino || p.nombre}</span></div>`;
+      ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover;display:block">`
+      : `<div class="card-img-bg pi-tk"><span class="pi-label">${p.destino || p.nombre}</span></div>`;
 
     const badgeHtml = p.badge
       ? `<span class="urg-badge ${badgeClass(p.tipo_badge)}">${p.badge}</span>` : '';
