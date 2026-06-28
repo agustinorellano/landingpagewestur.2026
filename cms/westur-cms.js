@@ -213,29 +213,87 @@ function renderCircuitos(items) {
   document.querySelectorAll('#circuitos .circ-card.r').forEach(el => revealObs.observe(el));
 }
 
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+
+function skeletonCard(featured) {
+  const h = featured ? '270px' : '210px';
+  const span = featured ? 'grid-column:1/3' : '';
+  return `<div class="dest-card sk" style="${span}">
+    <div class="sk-img" style="height:${h}"></div>
+    <div class="card-b">
+      <div class="sk-line w60"></div>
+      <div class="sk-line w90" style="margin-top:8px"></div>
+      <div class="sk-line w50" style="margin-top:6px"></div>
+      <div class="sk-line w40" style="margin-top:14px"></div>
+    </div>
+  </div>`;
+}
+
+function showSkeletons() {
+  const grid = document.querySelector('#paquetes .dest-grid');
+  if (!grid) return;
+  grid.innerHTML = [0,1,2,3].map(i => skeletonCard(i === 0)).join('');
+}
+
+// ── Cache ─────────────────────────────────────────────────────────────────────
+
+const CACHE_KEY = 'westur_cms_v1';
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+
+function getCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) return null;
+    return data;
+  } catch { return null; }
+}
+
+function setCache(data) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
+}
+
+function applyData(data) {
+  if (data.paquetes?.length)         renderPaquetes(data.paquetes);
+  if (data.ofertas?.length)          renderOfertas(data.ofertas);
+  if (data.salidas_grupales?.length) renderSalidas(data.salidas_grupales);
+  if (data.circuitos?.length)        renderCircuitos(data.circuitos);
+}
+
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 let revealObs;
 
 async function loadCMS() {
-  if (!SCRIPT_URL || SCRIPT_URL.includes('PEGAR')) return; // sin URL configurada, usa contenido estático
+  if (!SCRIPT_URL || SCRIPT_URL.includes('PEGAR')) return;
 
+  // 1. Mostrar skeleton mientras carga
+  showSkeletons();
+
+  // 2. Si hay cache válido, renderizar inmediatamente sin esperar
+  const cached = getCache();
+  if (cached) {
+    applyData(cached);
+  }
+
+  // 3. Siempre buscar datos frescos en background
   try {
     const res = await fetch(SCRIPT_URL);
     const data = await res.json();
-
-    if (data.paquetes?.length)         renderPaquetes(data.paquetes);
-    if (data.ofertas?.length)          renderOfertas(data.ofertas);
-    if (data.salidas_grupales?.length) renderSalidas(data.salidas_grupales);
-    if (data.circuitos?.length)        renderCircuitos(data.circuitos);
-
+    setCache(data);
+    // Solo re-renderizar si los datos cambiaron
+    if (JSON.stringify(data) !== JSON.stringify(cached)) {
+      applyData(data);
+    }
   } catch (e) {
-    console.warn('Westur CMS: usando contenido estático.', e);
+    if (!cached) console.warn('Westur CMS: usando contenido estático.', e);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Tomar referencia al observer de reveal que ya existe en index.html
   revealObs = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) e.target.classList.add('v');
   }), { threshold: 0.08 });
