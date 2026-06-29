@@ -1,6 +1,44 @@
 // Westur CMS — Google Apps Script
 // Extensiones → Apps Script → pegar → Implementar → Aplicación web → Cualquiera
 
+// ── Setup inicial: crea hojas Cruceros y Autos si no existen ─────────────────
+// Correr UNA sola vez desde el editor: seleccioná agregarHojas y presioná ▶
+function agregarHojas() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  // CRUCEROS
+  let hC = ss.getSheetByName('Cruceros');
+  if (!hC) hC = ss.insertSheet('Cruceros');
+  if (hC.getLastRow() < 1) {
+    hC.getRange(1,1,1,12).setValues([[
+      'Activo','Nombre','Naviera','Ruta','Duración','Precio','Moneda','Fecha Salida','Categoria','Badge','Imagen 1','Imagen 2'
+    ]]);
+    hC.getRange(2,1,3,12).setValues([
+      ['SI','MSC Crucero Mediterráneo','MSC Cruceros','Barcelona · Marsella · Génova · Roma · Nápoles','7 noches',1290,'USD','2026-09-10','mediterraneo','Más vendido','',''],
+      ['SI','Costa Caribe Todo Incluido','Costa Cruceros','Miami · Nassau · Cozumel · Roatán · Cartagena','10 noches',1590,'USD','2026-10-05','caribe','Solo 8 cabinas','',''],
+      ['SI','Fiordos Noruegos','Hurtigruten','Bergen · Flam · Geiranger · Alesund · Tromso','12 noches',2890,'USD','2026-08-20','noruego','Nuevo','',''],
+    ]);
+  }
+
+  // AUTOS
+  let hA = ss.getSheetByName('Autos');
+  if (!hA) hA = ss.insertSheet('Autos');
+  if (hA.getLastRow() < 1) {
+    hA.getRange(1,1,1,9).setValues([[
+      'Activo','Categoria','Marca Modelo','Destino','Precio Por Dia','Moneda','Incluye','Disponibilidad','Imagen 1'
+    ]]);
+    hA.getRange(2,1,4,9).setValues([
+      ['SI','economico','Toyota Yaris / similar','Cancún',45,'USD','GPS · Seguro básico · 200 km/día','Todo el año',''],
+      ['SI','intermedio','Chevrolet Cruze / similar','Miami',62,'USD','GPS · Seguro completo · km ilimitados','Todo el año',''],
+      ['SI','suv','Ford Escape / similar','Bariloche',95,'USD','GPS · Seguro completo · km ilimitados · Portaequipajes','Sep – Mar',''],
+      ['SI','premium','BMW Serie 3 / similar','Buenos Aires',110,'USD','GPS · Seguro completo · km ilimitados · Asistencia 24hs','Todo el año',''],
+    ]);
+  }
+
+  SpreadsheetApp.getUi().alert('Hojas Cruceros y Autos listas.');
+}
+
+
 function doGet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const data = {
