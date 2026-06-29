@@ -226,6 +226,15 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .dest-card:hover{transform:translateY(-6px);box-shadow:var(--sh2)}
 .dest-card:first-child{grid-column:auto}
 .card-img{position:relative;overflow:hidden;aspect-ratio:1/1}
+.crs-wrap{position:relative;width:100%;height:100%}
+.crs-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .4s ease}
+.crs-slide.crs-active{opacity:1}
+.crs-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;z-index:3;transition:background .2s}
+.crs-arr:hover{background:rgba(0,0,0,.6)}
+.crs-prev{left:8px}.crs-next{right:8px}
+.crs-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.crs-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;transition:background .2s}
+.crs-dot.crs-dot-on{background:#fff}
 .card-img img,.card-img-bg{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
 .dest-card:hover .card-img img,.dest-card:hover .card-img-bg{transform:scale(1.04)}
 .card-img .img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.35) 0%,transparent 50%)}

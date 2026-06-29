@@ -110,25 +110,66 @@ function countdownHtml(id, deadline) {
 
 // ── Renderizadores ────────────────────────────────────────────────────────────
 
+function buildCarousel(imgs, alt) {
+  if (!imgs.length) return `<div class="card-img-bg pi-tk"><span class="pi-label">${alt}</span></div>`;
+  if (imgs.length === 1) return `<img src="${imgs[0]}" alt="${alt}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+
+  const slides = imgs.map((src, i) =>
+    `<div class="crs-slide${i===0?' crs-active':''}" style="background-image:url(${src})"></div>`
+  ).join('');
+  const dots = imgs.map((_, i) =>
+    `<button class="crs-dot${i===0?' crs-dot-on':''}" data-i="${i}" aria-label="Imagen ${i+1}"></button>`
+  ).join('');
+
+  return `
+    <div class="crs-wrap">
+      ${slides}
+      <button class="crs-arr crs-prev" aria-label="Anterior">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="crs-arr crs-next" aria-label="Siguiente">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="crs-dots">${dots}</div>
+    </div>`;
+}
+
+function initCarousels(container) {
+  container.querySelectorAll('.crs-wrap').forEach(wrap => {
+    const slides = wrap.querySelectorAll('.crs-slide');
+    const dots   = wrap.querySelectorAll('.crs-dot');
+    let cur = 0;
+
+    function goTo(n) {
+      slides[cur].classList.remove('crs-active');
+      dots[cur].classList.remove('crs-dot-on');
+      cur = (n + slides.length) % slides.length;
+      slides[cur].classList.add('crs-active');
+      dots[cur].classList.add('crs-dot-on');
+    }
+
+    wrap.querySelector('.crs-prev').addEventListener('click', e => { e.preventDefault(); goTo(cur - 1); });
+    wrap.querySelector('.crs-next').addEventListener('click', e => { e.preventDefault(); goTo(cur + 1); });
+    dots.forEach(d => d.addEventListener('click', e => { e.preventDefault(); goTo(+d.dataset.i); }));
+  });
+}
+
 function renderPaquetes(items) {
   const grid = document.querySelector('#paquetes .dest-grid');
   if (!grid || !items.length) return;
 
   grid.innerHTML = items.map((p, i) => {
-    const span = '';
-    const imgSrc = driveToImg(p.imagen_1);
-    const imgHtml = imgSrc
-      ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover;display:block">`
-      : `<div class="card-img-bg pi-tk"><span class="pi-label">${p.destino || p.nombre}</span></div>`;
+    const imgs = [p.imagen_1, p.imagen_2, p.imagen_3]
+      .map(u => u && driveToImg(u)).filter(Boolean);
 
+    const imgHtml = buildCarousel(imgs, p.destino || p.nombre);
     const badgeHtml = p.badge
       ? `<span class="urg-badge ${badgeClass(p.tipo_badge)}">${p.badge}</span>` : '';
-
     const moneda = p.moneda || 'USD';
     const precio = p.precio ? `${moneda} ${Number(p.precio).toLocaleString('es-AR')}` : '';
 
     return `
-    <div class="dest-card r" data-cat="${p.categoria || 'todos'}" style="${span}">
+    <div class="dest-card r" data-cat="${p.categoria || 'todos'}">
       <div class="card-img">
         ${imgHtml}
         <div class="img-ov"></div>
@@ -152,7 +193,7 @@ function renderPaquetes(items) {
     </div>`;
   }).join('');
 
-  // Re-iniciar reveal observer sobre las nuevas cards
+  initCarousels(grid);
   document.querySelectorAll('.dest-card.r:not(.v)').forEach(el => revealObs.observe(el));
 }
 
