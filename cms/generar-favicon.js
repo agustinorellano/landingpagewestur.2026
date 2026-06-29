@@ -10,7 +10,7 @@ const svgBg = `<svg width="${SIZE}" height="${SIZE}" xmlns="http://www.w3.org/20
 </svg>`;
 
 async function main() {
-  const isotipo = await sharp('C:/Users/agust/Downloads/Isotipo W _ avi_n _PNG transparente.png')
+  const isotipo = await sharp('C:/Users/agust/Downloads/Isotipo W _ avi_n.png')
     .resize(42, 42, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
     .toBuffer();
