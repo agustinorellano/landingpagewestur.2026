@@ -81,6 +81,45 @@ const sheets = [
     ],
     dropdowns: { 'Activo': ['"SI,NO"'], 'Moneda': ['"USD,$"'], 'Guia Incluido': ['"SI,NO"'] },
   },
+  {
+    name: 'Cruceros',
+    headers: ['Activo','Nombre','Naviera','Ruta','Duración','Precio','Moneda','Fecha Salida','Categoria','Badge','Imagen 1','Imagen 2'],
+    widths:  [10, 28, 18, 40, 14, 12, 10, 16, 16, 24, 40, 40],
+    notas: {
+      'Activo': 'SI = visible en la web\nNO = oculto',
+      'Ruta': 'Puertos separados por · (punto medio)',
+      'Moneda': 'USD o $ (pesos)',
+      'Fecha Salida': 'Formato: AAAA-MM-DD\nEj: 2026-09-10',
+      'Categoria': 'mediterraneo / caribe / noruego / pacifico',
+      'Imagen 1': 'Pegar link de Google Drive (botón compartir)',
+    },
+    rows: [
+      ['SI','MSC Crucero Mediterráneo','MSC Cruceros','Barcelona · Marsella · Génova · Roma · Nápoles · Palermo','7 noches',1290,'USD','2026-09-10','mediterraneo','Más vendido','',''],
+      ['SI','Costa Caribe Todo Incluido','Costa Cruceros','Miami · Nassau · Cozumel · Roatán · Cartagena','10 noches',1590,'USD','2026-10-05','caribe','Solo 8 cabinas','',''],
+      ['SI','Fiordos Noruegos','Hurtigruten','Bergen · Flam · Geiranger · Alesund · Tromso','12 noches',2890,'USD','2026-08-20','noruego','Nuevo','',''],
+    ],
+    dropdowns: { 'Activo': ['"SI,NO"'], 'Moneda': ['"USD,$"'], 'Categoria': ['"mediterraneo,caribe,noruego,pacifico"'] },
+  },
+  {
+    name: 'Autos',
+    headers: ['Activo','Categoria','Marca Modelo','Destino','Precio Por Dia','Moneda','Incluye','Disponibilidad','Imagen 1'],
+    widths:  [10, 16, 24, 22, 16, 10, 36, 20, 40],
+    notas: {
+      'Activo': 'SI = visible en la web\nNO = oculto',
+      'Categoria': 'economico / intermedio / suv / premium',
+      'Moneda': 'USD o $ (pesos)',
+      'Incluye': 'Ej: GPS, Seguro básico, 200km/día',
+      'Disponibilidad': 'Ej: Todo el año · Consultar fechas',
+      'Imagen 1': 'Pegar link de Google Drive (botón compartir)',
+    },
+    rows: [
+      ['SI','economico','Toyota Yaris / similar','Cancún',45,'USD','GPS · Seguro básico · 200 km/día','Todo el año',''],
+      ['SI','intermedio','Chevrolet Cruze / similar','Miami',62,'USD','GPS · Seguro completo · km ilimitados','Todo el año',''],
+      ['SI','suv','Ford Escape / similar','Bariloche',95,'USD','GPS · Seguro completo · km ilimitados · Portaequipajes','Sep – Mar',''],
+      ['SI','premium','BMW Serie 3 / similar','Buenos Aires',110,'USD','GPS · Seguro completo · km ilimitados · Asistencia 24hs','Todo el año',''],
+    ],
+    dropdowns: { 'Activo': ['"SI,NO"'], 'Moneda': ['"USD,$"'], 'Categoria': ['"economico,intermedio,suv,premium"'] },
+  },
 ];
 
 async function main() {

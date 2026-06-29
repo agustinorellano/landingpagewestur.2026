@@ -8,6 +8,8 @@ function doGet() {
     ofertas:         parseSheet(ss, 'Ofertas'),
     salidas_grupales:parseSheet(ss, 'Salidas Grupales'),
     circuitos:       parseSheet(ss, 'Circuitos'),
+    cruceros:        parseSheet(ss, 'Cruceros'),
+    autos:           parseSheet(ss, 'Autos'),
   };
   return ContentService
     .createTextOutput(JSON.stringify(data))

@@ -281,6 +281,94 @@ function renderCircuitos(items) {
   document.querySelectorAll('#circuitos .circ-card.r').forEach(el => revealObs.observe(el));
 }
 
+function renderCruceros(items) {
+  const grid = document.querySelector('#cruceros .circ-grid');
+  if (!grid || !items.length) return;
+
+  grid.innerHTML = items.map((c, i) => {
+    const delay = ['', 'r1', 'r2'][i % 3];
+    const moneda = c.moneda || 'USD';
+    const precio = c.precio ? `${moneda} ${Number(c.precio).toLocaleString('es-AR')}` : '';
+    const rutaHtml = (c.ruta || '').split('·').map(r => r.trim()).filter(Boolean)
+      .map((r, j) => j === 0 ? `<span>${r}</span>` : `<span class="circ-dot"></span><span>${r}</span>`)
+      .join('');
+    const bgStyle = c.imagen_1
+      ? `style="background-image:url(${driveToImg(c.imagen_1)});background-size:cover;background-position:center"`
+      : '';
+
+    return `
+    <div class="circ-card r ${delay}">
+      <div class="circ-img" ${bgStyle}>
+        ${c.badge ? `<span class="circ-badge">${c.badge}</span>` : ''}
+      </div>
+      <div class="circ-b">
+        <div class="circ-route">${rutaHtml}</div>
+        <h3>${c.nombre}</h3>
+        <div class="circ-tags">
+          ${c.duracion ? `<span class="circ-tag">${c.duracion}</span>` : ''}
+          ${c.naviera ? `<span class="circ-tag">${c.naviera}</span>` : ''}
+          ${c.fecha_salida ? `<span class="circ-tag">Salida: ${c.fecha_salida}</span>` : ''}
+        </div>
+        <div class="card-foot">
+          <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+          <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
+             class="btn-dest" target="_blank" style="flex:1;min-width:130px">
+            <svg width="15" height="15"><use href="#ic-wa"/></svg>
+            Consultar crucero
+          </a>
+          ${shareHtml(c.nombre, c.ruta, precio, 'cruceros')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('#cruceros .circ-card.r').forEach(el => revealObs.observe(el));
+}
+
+function renderAutos(items) {
+  const grid = document.querySelector('#autos .autos-cms-grid');
+  if (!grid || !items.length) return;
+
+  const catLabel = { economico:'Económico', intermedio:'Intermedio', suv:'SUV', premium:'Premium' };
+  const catClass = { economico:'tag-g', intermedio:'tag-d', suv:'urg-cupos', premium:'urg-hot' };
+
+  grid.innerHTML = items.map((a, i) => {
+    const delay = ['', 'r1', 'r2', 'r3'][i % 4];
+    const moneda = a.moneda || 'USD';
+    const precio = a.precio_por_dia ? `${moneda} ${Number(a.precio_por_dia).toLocaleString('es-AR')}/día` : '';
+    const bgStyle = a.imagen_1
+      ? `style="background-image:url(${driveToImg(a.imagen_1)});background-size:cover;background-position:center"`
+      : '';
+
+    return `
+    <div class="circ-card r ${delay}">
+      <div class="circ-img" ${bgStyle}>
+        <span class="circ-badge">${catLabel[a.categoria] || a.categoria}</span>
+      </div>
+      <div class="circ-b">
+        <h3>${a.marca_modelo}</h3>
+        <div class="circ-tags">
+          ${a.destino ? `<span class="circ-tag">${a.destino}</span>` : ''}
+          ${a.disponibilidad ? `<span class="circ-tag">${a.disponibilidad}</span>` : ''}
+        </div>
+        ${a.incluye ? `<p style="font-size:12.5px;color:var(--txt2);margin:8px 0 0;line-height:1.5">${a.incluye}</p>` : ''}
+        <div class="card-foot" style="margin-top:12px">
+          <div class="card-price">Desde <strong>${precio}</strong></div>
+        </div>
+        <a href="${buildWaMsg('auto', {nombre:a.marca_modelo, descripcion:a.incluye})}"
+           class="btn-dest" target="_blank" style="margin-top:12px;display:flex;align-items:center;gap:7px;justify-content:center">
+          <svg width="15" height="15"><use href="#ic-wa"/></svg>
+          Consultar disponibilidad
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('#autos .circ-card.r').forEach(el => revealObs.observe(el));
+}
+
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 
 function skeletonCard(featured) {
@@ -329,6 +417,8 @@ function applyData(data) {
   if (data.ofertas?.length)          renderOfertas(data.ofertas);
   if (data.salidas_grupales?.length) renderSalidas(data.salidas_grupales);
   if (data.circuitos?.length)        renderCircuitos(data.circuitos);
+  if (data.cruceros?.length)         renderCruceros(data.cruceros);
+  if (data.autos?.length)            renderAutos(data.autos);
 }
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
