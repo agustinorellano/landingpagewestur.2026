@@ -168,8 +168,9 @@ function renderPaquetes(items) {
     const moneda = p.moneda || 'USD';
     const precio = p.precio ? `${moneda} ${Number(p.precio).toLocaleString('es-AR')}` : '';
 
+    const featClass = i === 0 ? ' feat' : '';
     return `
-    <div class="dest-card r" data-cat="${p.categoria || 'todos'}">
+    <div class="dest-card r${featClass}" data-cat="${p.categoria || 'todos'}">
       <div class="card-img">
         ${imgHtml}
         <div class="img-ov"></div>
