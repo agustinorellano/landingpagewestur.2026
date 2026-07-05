@@ -520,7 +520,7 @@ footer{background:#0f1f18;padding:64px 40px 32px}
 .mob-bar-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;padding:13px;border-radius:var(--r);font-size:14px;font-weight:600;text-decoration:none;letter-spacing:.1px}
 .mob-bar-pkg{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--v);color:#fff;padding:13px;border-radius:var(--r);font-size:14px;font-weight:600;text-decoration:none;letter-spacing:.1px}
 .mob-bar svg{width:16px;height:16px;flex-shrink:0}
-@media(max-width:768px){.mob-bar{display:flex}.wa-f{bottom:90px}}
+@media(max-width:768px){.wa-f{bottom:24px;right:20px}}
 
 /* ── WA FLOAT ── */
 .wa-f{position:fixed;bottom:28px;right:28px;z-index:200;width:56px;height:56px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.4);animation:wap 2.5s ease-in-out infinite;transition:transform .2s}
@@ -695,7 +695,7 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   .trust-strip{padding:20px 16px}
   .sec{padding:44px 16px}
 }
-@media(max-width:768px){body{padding-bottom:72px}}
+
 </style>
 </head>
 <body>
@@ -2078,16 +2078,7 @@ footer{background:#0f1f18;padding:64px 40px 32px}
 </footer>
 
 <!-- MOBILE BOTTOM BAR -->
-<div class="mob-bar">
-  <a href="https://wa.me/541140919506?text=Hola%20Westur!%20Llegué%20desde%20su%20web." class="mob-bar-wa" target="_blank">
-    <svg viewBox="0 0 24 24"><use href="#ic-wa"/></svg>
-    WhatsApp
-  </a>
-  <a href="#paquetes" class="mob-bar-pkg">
-    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><use href="#ic-plane"/></svg>
-    Ver paquetes
-  </a>
-</div>
+
 
 <!-- WhatsApp FLOAT -->
 <a href="https://wa.me/541140919506?text=Hola%20Westur!%20Llegué%20desde%20su%20web%20y%20me%20interesa%20consultar." class="wa-f" target="_blank" aria-label="Contactar por WhatsApp">
