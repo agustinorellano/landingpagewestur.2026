@@ -614,8 +614,11 @@ footer{background:#0f1f18;padding:64px 40px 32px}
 }
 @media(max-width:768px){
   /* Hero */
-  .hero{overflow:hidden}
-  .hero-c{width:100%;box-sizing:border-box;padding:88px 20px 72px;margin-left:0;text-align:center;max-width:100%}
+  .hero{overflow:hidden;min-height:100svh}
+  .hero-bg{background-position:60% center}
+  .hero-ov{background:linear-gradient(to top,rgba(10,28,20,.9) 0%,rgba(10,28,20,.6) 45%,rgba(10,28,20,.15) 100%)}
+  .hero-c{width:100%;box-sizing:border-box;padding:0 20px 56px;margin-left:0;text-align:center;max-width:100%;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
+  .hero-pill{margin-bottom:20px}
   .hero h1{font-size:clamp(34px,9vw,52px)}
   .hero-last{display:inline-block}
   .hero-swoosh{width:52vw;max-width:200px;margin:2px auto 0}
@@ -628,9 +631,10 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   .sec-head{margin-bottom:36px}
   .sec-head h2{font-size:clamp(22px,6vw,32px)}
   .sec-head p{font-size:14px}
-  .dest-grid{grid-template-columns:1fr 1fr;gap:14px}
-  .dest-card.feat{grid-column:span 2}
-  .dest-card.feat .card-img{aspect-ratio:16/9}
+  /* Paquetes mobile */
+  .dest-grid{display:flex;flex-direction:column;gap:20px}
+  .dest-card,.dest-card.feat{width:100%;grid-column:auto}
+  .dest-card .card-img,.dest-card.feat .card-img{aspect-ratio:16/9}
   .cat-grid{grid-template-columns:1fr 1fr}
   .cat-card.feat{grid-column:span 2}
   .cat-card{height:200px}
@@ -665,12 +669,17 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   .trust-strip-in{grid-template-columns:repeat(2,1fr);gap:20px}
 }
 @media(max-width:480px){
-  .hero-c{padding:80px 16px 64px}
+  .hero-c{padding:0 16px 48px}
   .hero h1{font-size:clamp(30px,10vw,44px)}
+  .hero-sub{font-size:14px}
   .hero-search{flex-wrap:wrap}
   .hero-search input{min-width:0;width:100%}
   .hero-search-btn{width:100%;justify-content:center;padding:14px}
-  .dest-grid{grid-template-columns:1fr}
+  .dest-grid{gap:16px}
+  .dest-card .card-img,.dest-card.feat .card-img{aspect-ratio:4/3}
+  .card-b{padding:14px}
+  .card-b h3{font-size:15px}
+  .btn-dest{padding:13px;font-size:14px}
   .proc-grid{grid-template-columns:1fr}
   .gal-item:nth-child(1){grid-column:auto}
   .cat-card.feat{grid-column:auto}
