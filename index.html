@@ -380,7 +380,12 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .rat-stars{display:flex;gap:2px;color:#f5c842}
 .rat-stars svg{width:16px;height:16px}
 .rat-label{font-size:12px;color:var(--txt2)}
-.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+/* Testimonios carrusel */
+.test-carousel{position:relative}
+.test-track-wrap{overflow:hidden}
+.test-track{display:flex;gap:20px;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+.test-grid{display:contents}
+.test-card{flex:0 0 calc((100% - 40px)/3);min-width:0}
 .test-card{background:#fff;border:1px solid var(--div);border-radius:var(--rl);padding:26px;box-shadow:var(--sh);position:relative;transition:box-shadow .25s}
 .test-card:hover{box-shadow:var(--sh2)}
 .test-q{position:absolute;top:18px;right:22px;font-family:var(--f-d);font-size:64px;color:var(--vs);line-height:1}
@@ -393,6 +398,13 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .test-sub{font-size:12px;color:var(--txt2)}
 .test-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--txt2);margin-top:10px;padding-top:10px;border-top:1px solid var(--div);width:100%}
 .test-badge svg{width:14px;height:14px;flex-shrink:0}
+.test-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:28px}
+.test-arr{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--div);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2);transition:border-color .2s,color .2s;flex-shrink:0}
+.test-arr:hover{border-color:var(--v);color:var(--v)}
+.test-arr svg{width:16px;height:16px}
+.test-dots{display:flex;gap:6px;align-items:center}
+.test-dot{width:7px;height:7px;border-radius:50%;background:var(--div);border:none;cursor:pointer;padding:0;transition:background .2s,transform .2s}
+.test-dot.on{background:var(--v);transform:scale(1.3)}
 .test-av-b{background:#2A6048}
 .test-av-c{background:#1a3a6e}
 .test-av-d{background:#5a3a1a}
@@ -652,7 +664,7 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   .oferta-head{flex-direction:column;align-items:flex-start;gap:16px}
   .btn-ver-ofertas{width:100%;justify-content:center}
   .promo-btns{flex-direction:column}
-  .test-grid{grid-template-columns:1fr}
+  .test-card{flex:0 0 100%}
   .gal-grid{grid-template-columns:1fr 1fr}
   .gal-item:nth-child(1){grid-column:span 2}
   .gal-item:nth-child(4){grid-column:auto}
@@ -1621,6 +1633,9 @@ footer{background:#0f1f18;padding:64px 40px 32px}
         </a>
       </div>
     </div>
+    <div class="test-carousel" id="test-carousel">
+    <div class="test-track-wrap">
+    <div class="test-track" id="test-track">
     <div class="test-grid">
       <div class="test-card r">
         <div class="test-q">"</div>
@@ -1742,7 +1757,18 @@ footer{background:#0f1f18;padding:64px 40px 32px}
         </div>
         <span class="test-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>Reseña verificada · Google</span>
       </div>
+    </div><!-- test-track -->
+    </div><!-- test-track-wrap -->
+    <div class="test-nav">
+      <button class="test-arr" id="test-prev" aria-label="Anterior">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+      </button>
+      <div class="test-dots" id="test-dots"></div>
+      <button class="test-arr" id="test-next" aria-label="Siguiente">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+      </button>
     </div>
+    </div><!-- test-carousel -->
   </div>
 </section>
 
@@ -2284,6 +2310,60 @@ document.addEventListener('click', e => {
     document.querySelectorAll('.share-menu.open').forEach(m => m.classList.remove('open'));
   }
 });
+
+// ── Testimonios carrusel ──────────────────────────────────────────────────────
+(function(){
+  const track  = document.getElementById('test-track');
+  const dotsW  = document.getElementById('test-dots');
+  const prev   = document.getElementById('test-prev');
+  const next   = document.getElementById('test-next');
+  if (!track) return;
+
+  const cards  = track.querySelectorAll('.test-card');
+  const total  = cards.length;
+  let current  = 0;
+
+  function perView() {
+    return window.innerWidth < 769 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+  }
+
+  function steps() { return total - perView(); }
+
+  function buildDots() {
+    dotsW.innerHTML = '';
+    const n = steps() + 1;
+    for (let i = 0; i < n; i++) {
+      const d = document.createElement('button');
+      d.className = 'test-dot' + (i === current ? ' on' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsW.appendChild(d);
+    }
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, steps()));
+    const pv = perView();
+    const gap = 20;
+    const cardW = (track.parentElement.offsetWidth - gap * (pv - 1)) / pv;
+    track.style.transform = `translateX(-${current * (cardW + gap)}px)`;
+    dotsW.querySelectorAll('.test-dot').forEach((d, i) => d.classList.toggle('on', i === current));
+  }
+
+  prev.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+
+  // touch swipe
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e => {
+    const dx = tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 40) goTo(current + (dx > 0 ? 1 : -1));
+  }, {passive:true});
+
+  buildDots();
+  goTo(0);
+  window.addEventListener('resize', () => { buildDots(); goTo(0); });
+})();
 </script>
 </body>
 </html>
