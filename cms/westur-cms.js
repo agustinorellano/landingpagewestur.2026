@@ -168,8 +168,9 @@ function renderPaquetes(items) {
     const precio = p.precio ? `${moneda} ${Number(p.precio).toLocaleString('es-AR')}` : '';
 
     const featClass = i === 0 ? ' feat' : '';
+    const cat = (p.categoria || 'todos').toLowerCase().trim();
     return `
-    <div class="dest-card r${featClass}" data-cat="${p.categoria || 'todos'}">
+    <div class="dest-card r${featClass}" data-cat="${cat}">
       <div class="card-img">
         ${imgHtml}
         <div class="img-ov"></div>
@@ -195,6 +196,15 @@ function renderPaquetes(items) {
 
   initCarousels(grid);
   document.querySelectorAll('.dest-card.r:not(.v)').forEach(el => revealObs.observe(el));
+  // re-apply active filter if one is selected
+  const activeBtn = document.querySelector('.filtro-btn.act');
+  if (activeBtn) {
+    const f = activeBtn.dataset.f;
+    document.querySelectorAll('.dest-card').forEach(card => {
+      if (f === 'todos' || card.dataset.cat === f) card.classList.remove('hidden');
+      else card.classList.add('hidden');
+    });
+  }
 }
 
 function renderOfertas(items) {
