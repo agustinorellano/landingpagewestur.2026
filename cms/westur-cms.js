@@ -1,7 +1,7 @@
 // Westur CMS Loader
 // Reemplazá SCRIPT_URL con la URL que te da Apps Script al implementar
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz22HkdE0DdSqcN2eu4XhDoeRq2HMNDtAqp5gghHCg1C1qPGgqiDheP7VmuaNeT3wbb/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwO6L1gbsFrSujp_f8_WZOkuwCw-CrXpUtHC4sAugR-aDrv_cC9-k_E1A_UIoydS931/exec';
 
 const WA = 'https://wa.me/541140919506';
 const waMsg = t => `${WA}?text=${encodeURIComponent(t)}`;
