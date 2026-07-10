@@ -42,15 +42,6 @@ function shareHtml(nombre, descripcion, precio, seccion) {
       <button class="share-opt" onclick="shareVia('wa','${n}','${d}','${p}','${s}',this)">
         <svg width="15" height="15"><use href="#ic-wa"/></svg> WhatsApp
       </button>
-      <button class="share-opt" onclick="shareVia('tg','${n}','${d}','${p}','${s}',this)">
-        <svg width="15" height="15"><use href="#ic-tg"/></svg> Telegram
-      </button>
-      <button class="share-opt" onclick="shareVia('fb','${n}','${d}','${p}','${s}',this)">
-        <svg width="15" height="15"><use href="#ic-fb"/></svg> Facebook
-      </button>
-      <button class="share-opt" onclick="shareVia('x','${n}','${d}','${p}','${s}',this)">
-        <svg width="15" height="15"><use href="#ic-x"/></svg> X (Twitter)
-      </button>
       <button class="share-opt" onclick="shareVia('email','${n}','${d}','${p}','${s}',this)">
         <svg width="15" height="15"><use href="#ic-mail"/></svg> Email
       </button>
