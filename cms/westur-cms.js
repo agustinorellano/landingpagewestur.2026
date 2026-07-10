@@ -9,7 +9,7 @@ const waMsg = t => `${WA}?text=${encodeURIComponent(t)}`;
 function buildWaMsg(tipo, datos = {}) {
   const url = window.location.href.split('#')[0];
   const { nombre, descripcion, precio, moneda, duracion, fecha, ruta } = datos;
-  const precioStr = precio ? `\nPrecio desde: ${moneda || 'USD'} ${Number(precio).toLocaleString('es-AR')} p/p` : '';
+  const precioStr = precio ? `\nPrecio desde: ${moneda || 'USD'} ${Number(precio).toLocaleString('es-AR')}` : '';
   const fechaStr = fecha ? `\nFecha de salida: ${fecha}` : '';
   const rutaStr = ruta ? `\nRuta: ${ruta}` : '';
   const durStr = duracion ? `\nDuracion: ${duracion}` : '';
@@ -180,7 +180,7 @@ function renderPaquetes(items) {
         <h3>${p.nombre}</h3>
         <p>${p.descripcion || ''}</p>
         <div class="card-foot">
-          <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
+          <div class="card-price">Desde <strong>${precio}</strong></div>
           <span class="card-dur">${p.duracion || ''}</span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
@@ -188,7 +188,7 @@ function renderPaquetes(items) {
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Ver más
           </a>
-          ${shareHtml(p.nombre, p.descripcion, precio ? `${precio} p/p` : '', 'paquetes')}
+          ${shareHtml(p.nombre, p.descripcion, precio ? `${precio}` : '', 'paquetes')}
         </div>
       </div>
     </div>`;
@@ -217,7 +217,7 @@ function renderOfertas(items) {
       : `<div class="promo-img pi-pc">`;
 
     const moneda = o.moneda || 'USD';
-    const precioNuevo = o.precio_nuevo ? `${moneda} ${Number(o.precio_nuevo).toLocaleString('es-AR')} p/p` : '';
+    const precioNuevo = o.precio_nuevo ? `${moneda} ${Number(o.precio_nuevo).toLocaleString('es-AR')}` : '';
     const precioOrig = o.precio_original ? `<span class="promo-old">${moneda} ${Number(o.precio_original).toLocaleString('es-AR')}</span>` : '';
 
     return `
@@ -277,7 +277,7 @@ function renderSalidas(items) {
           <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
         </a>
 
-        ${shareHtml(s.destino, s.ruta, s.precio ? `${s.moneda||'USD'} ${Number(s.precio).toLocaleString('es-AR')} p/p` : '', 'salidas-grupales')}
+        ${shareHtml(s.destino, s.ruta, s.precio ? `${s.moneda||'USD'} ${Number(s.precio).toLocaleString('es-AR')}` : '', 'salidas-grupales')}
       </div>
     </div>`;
   }).join('');
@@ -315,7 +315,7 @@ function renderCircuitos(items) {
           ${c.guia_incluido === 'SI' ? '<span class="circ-tag">Guía incluido</span>' : ''}
         </div>
         <div class="card-foot">
-          <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
+          <div class="card-price">Desde <strong>${precio}</strong></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
           <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
@@ -361,7 +361,7 @@ function renderCruceros(items) {
           ${c.fecha_salida ? `<span class="circ-tag">Salida: ${c.fecha_salida}</span>` : ''}
         </div>
         <div class="card-foot">
-          <div class="card-price">Desde <strong>${precio}</strong> p/p</div>
+          <div class="card-price">Desde <strong>${precio}</strong></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
           <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
