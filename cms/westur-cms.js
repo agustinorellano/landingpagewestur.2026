@@ -37,7 +37,6 @@ function shareHtml(nombre, descripcion, precio, seccion) {
   <div class="share-wrap">
     <button class="share-btn" onclick="openShareMenu(this)" aria-label="Compartir">
       <svg width="15" height="15"><use href="#ic-share"/></svg>
-      Compartir
     </button>
     <div class="share-menu" role="menu">
       <button class="share-opt" onclick="shareVia('wa','${n}','${d}','${p}','${s}',this)">
