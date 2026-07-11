@@ -157,11 +157,11 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 
 /* ── HERO ── */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:64px}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;animation:heroFade 12s infinite}
-.hero-bg-1{background-image:url('img/hero-patagonia.png');animation-delay:0s}
-.hero-bg-2{background-image:url('img/hero-slide-2.jpg');animation-delay:4s}
-.hero-bg-3{background-image:url('img/hero-slide-3.jpg');animation-delay:8s}
-@keyframes heroFade{0%{opacity:1}25%{opacity:1}33.3%{opacity:0}99%{opacity:0}100%{opacity:0}}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity 1s ease}
+.hero-bg.active{opacity:1}
+.hero-bg-1{background-image:url('img/hero-patagonia.png')}
+.hero-bg-2{background-image:url('img/hero-slide-2.jpg')}
+.hero-bg-3{background-image:url('img/hero-slide-3.jpg')}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,37,28,.9) 0%,rgba(15,37,28,.78) 40%,rgba(15,37,28,.2) 66%,rgba(15,37,28,.04) 100%)}
 .hero-c{position:relative;z-index:2;max-width:580px;padding:80px 40px 120px;margin-left:clamp(24px,9vw,140px)}
 .hero-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(6px);color:rgba(255,255,255,.88);font-size:12px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:28px}
@@ -792,7 +792,7 @@ footer{background:#0f1f18;padding:64px 40px 32px}
 
 <!-- HERO -->
 <section class="hero" id="inicio">
-  <div class="hero-bg hero-bg-1"></div>
+  <div class="hero-bg hero-bg-1 active"></div>
   <div class="hero-bg hero-bg-2"></div>
   <div class="hero-bg hero-bg-3"></div>
   <div class="hero-ov"></div>
@@ -1999,6 +1999,17 @@ document.querySelectorAll('.faq-btn').forEach(btn=>{
     if(!open)item.classList.add('open');
   });
 });
+
+// Hero slideshow
+(function(){
+  const slides=document.querySelectorAll('.hero-bg');
+  let cur=0;
+  setInterval(function(){
+    slides[cur].classList.remove('active');
+    cur=(cur+1)%slides.length;
+    slides[cur].classList.add('active');
+  },5000);
+})();
 
 // Hero search
 const heroInput=document.getElementById('hero-input');
