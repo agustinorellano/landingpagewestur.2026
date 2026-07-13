@@ -511,6 +511,21 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .cta-ti{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.6)}
 .cta-ti svg{width:16px;height:16px;color:rgba(255,255,255,.4)}
 
+/* ── NEWSLETTER ── */
+.newsletter{background:#0f251c;padding:80px 24px;border-top:1px solid rgba(255,255,255,.06)}
+.nl-inner{max-width:540px;margin:0 auto;text-align:center}
+.nl-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(125,211,168,.1);border:1px solid rgba(125,211,168,.2);color:#7dd3a8;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:24px}
+.nl-h{font-family:var(--f-d);font-size:clamp(26px,3.5vw,40px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:14px}
+.nl-sub{color:rgba(255,255,255,.52);font-size:15px;line-height:1.65;margin-bottom:36px}
+.nl-form{display:flex;gap:0;background:#fff;border-radius:var(--r);overflow:hidden;max-width:460px;margin:0 auto 14px;box-shadow:0 4px 24px rgba(0,0,0,.25)}
+.nl-form input{flex:1;border:none;outline:none;padding:15px 18px;font-family:var(--f-u);font-size:14px;color:var(--txt);background:transparent}
+.nl-form input::placeholder{color:#9ca3af}
+.nl-btn{background:var(--v);color:#fff;border:none;padding:0 24px;cursor:pointer;font-family:var(--f-u);font-size:14px;font-weight:600;white-space:nowrap;transition:background .2s;align-self:stretch}
+.nl-btn:hover{background:var(--vh)}
+.nl-btn:disabled{opacity:.6;cursor:default}
+.nl-legal{color:rgba(255,255,255,.28);font-size:12px}
+.nl-ok{display:none;margin-top:24px;background:rgba(125,211,168,.12);border:1px solid rgba(125,211,168,.25);border-radius:var(--r);padding:16px 24px;color:#7dd3a8;font-size:15px;font-weight:500}
+
 /* ── FOOTER ── */
 footer{background:#0f1f18;padding:64px 40px 32px}
 .foot-g{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:48px}
@@ -1900,6 +1915,24 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   </div>
 </section>
 
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="nl-inner">
+    <div class="nl-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.18 2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.45 5.45l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 15.46"/><path d="M22 6 11 17l-4-4"/></svg>
+      Novedades y ofertas
+    </div>
+    <h2 class="nl-h">Enteráte primero<br>de las mejores ofertas</h2>
+    <p class="nl-sub">Suscribite y recibí paquetes exclusivos, salidas grupales y promociones antes que nadie. Sin spam, solo viajes.</p>
+    <form class="nl-form" id="nl-form">
+      <input type="email" id="nl-email" placeholder="tu@email.com" required autocomplete="email">
+      <button type="submit" class="nl-btn" id="nl-btn">Suscribirme</button>
+    </form>
+    <p class="nl-legal">Sin spam · Podés darte de baja cuando quieras</p>
+    <div class="nl-ok" id="nl-ok">¡Gracias! Ya estás en la lista de Westur 🎉</div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="foot-g">
@@ -2011,6 +2044,27 @@ document.querySelectorAll('.faq-btn').forEach(btn=>{
     slides[cur].classList.add('active');
   },5000);
 })();
+
+// Newsletter
+const NEWSLETTER_URL='https://script.google.com/macros/s/AKfycbw4oYKrSHS7NZqIjXafTi0OPToEDPUTJKx9AMg5DRO3lqRDtfGxatraQ3pMVUiOO9Oyzg/exec';
+const nlForm=document.getElementById('nl-form');
+const nlOk=document.getElementById('nl-ok');
+const nlBtn=document.getElementById('nl-btn');
+if(nlForm){
+  nlForm.addEventListener('submit',function(e){
+    e.preventDefault();
+    const email=document.getElementById('nl-email').value.trim();
+    if(!email)return;
+    nlBtn.disabled=true;
+    nlBtn.textContent='Enviando...';
+    fetch(NEWSLETTER_URL+'?action=newsletter&email='+encodeURIComponent(email),{mode:'no-cors'})
+      .catch(function(){})
+      .finally(function(){
+        nlForm.style.display='none';
+        nlOk.style.display='block';
+      });
+  });
+}
 
 // Hero search
 const heroInput=document.getElementById('hero-input');
