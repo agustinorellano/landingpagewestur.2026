@@ -2057,7 +2057,8 @@ if(nlForm){
     if(!email)return;
     nlBtn.disabled=true;
     nlBtn.textContent='Enviando...';
-    fetch(NEWSLETTER_URL+'?action=newsletter&email='+encodeURIComponent(email),{mode:'no-cors'})
+    fetch(NEWSLETTER_URL+'?action=newsletter&email='+encodeURIComponent(email))
+      .then(function(r){return r.json()})
       .catch(function(){})
       .finally(function(){
         nlForm.style.display='none';
