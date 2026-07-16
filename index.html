@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<link rel="preload" as="image" href="img/hero-patagonia.jpg">
 <link rel="icon" type="image/png" sizes="96x96" href="https://westurviajes.com.ar/img/favicon.png">
 <link rel="shortcut icon" href="https://westurviajes.com.ar/favicon.ico">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -158,10 +159,10 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .mob-wa{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--v);color:#fff;padding:14px;border-radius:var(--r);font-weight:600;font-size:15px;text-decoration:none}
 
 /* ── HERO ── */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:64px}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:64px;background:#0f1f18}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity 1s ease}
 .hero-bg.active{opacity:1}
-.hero-bg-1{background-image:url('img/hero-patagonia.png')}
+.hero-bg-1{background-image:url('img/hero-patagonia.jpg')}
 .hero-bg-2{background-image:url('img/hero-slide-2.jpg')}
 .hero-bg-3{background-image:url('img/hero-slide-3.jpg')}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,37,28,.9) 0%,rgba(15,37,28,.78) 40%,rgba(15,37,28,.2) 66%,rgba(15,37,28,.04) 100%)}
