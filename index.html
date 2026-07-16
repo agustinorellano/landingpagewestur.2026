@@ -549,6 +549,17 @@ footer{background:#0f1f18;padding:64px 40px 32px}
 .foot-bot a:hover{color:rgba(255,255,255,.7)}
 .foot-bl{display:flex;gap:20px}
 
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;background:#0f1f18;color:#fff;border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 8px 32px rgba(0,0,0,.35);max-width:640px;width:calc(100% - 32px);transition:opacity .4s,transform .4s}
+#cookie-banner.hide{opacity:0;transform:translateX(-50%) translateY(20px);pointer-events:none}
+.ck-txt{font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;flex:1}
+.ck-txt a{color:#7dd3a8;text-decoration:underline}
+.ck-btns{display:flex;gap:8px;flex-shrink:0}
+.ck-ok{background:var(--v);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:var(--f-u)}
+.ck-no{background:transparent;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 14px;font-size:13px;cursor:pointer;white-space:nowrap;font-family:var(--f-u)}
+.ck-no:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+@media(max-width:560px){#cookie-banner{flex-direction:column;align-items:flex-start;gap:12px}.ck-btns{width:100%}.ck-ok,.ck-no{flex:1;text-align:center}}
+
 /* ── MOBILE BOTTOM BAR ── */
 .mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid var(--div);padding:10px 16px 14px;gap:10px;box-shadow:0 -4px 20px rgba(0,0,0,.07)}
 .mob-bar-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;padding:13px;border-radius:var(--r);font-size:14px;font-weight:600;text-decoration:none;letter-spacing:.1px}
@@ -2004,6 +2015,15 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   </div>
 </footer>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="display:none">
+  <p class="ck-txt">Usamos cookies para mejorar tu experiencia en el sitio. Al continuar, aceptás su uso. <a href="#">Política de privacidad</a></p>
+  <div class="ck-btns">
+    <button class="ck-no" id="ck-no">Rechazar</button>
+    <button class="ck-ok" id="ck-ok">Aceptar</button>
+  </div>
+</div>
+
 <!-- MOBILE BOTTOM BAR -->
 
 
@@ -2038,6 +2058,21 @@ document.querySelectorAll('.faq-btn').forEach(btn=>{
     if(!open)item.classList.add('open');
   });
 });
+
+// Cookie banner
+(function(){
+  const banner=document.getElementById('cookie-banner');
+  if(!banner)return;
+  if(localStorage.getItem('westur_cookies'))return;
+  setTimeout(function(){banner.style.display='flex'},800);
+  function dismiss(val){
+    banner.classList.add('hide');
+    setTimeout(function(){banner.style.display='none'},400);
+    localStorage.setItem('westur_cookies',val);
+  }
+  document.getElementById('ck-ok').addEventListener('click',function(){dismiss('accepted')});
+  document.getElementById('ck-no').addEventListener('click',function(){dismiss('rejected')});
+})();
 
 // Hero slideshow
 (function(){
