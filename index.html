@@ -570,8 +570,8 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 @keyframes cfOkIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .cf-ok-ring{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;animation:cfRingPop .45s .1s cubic-bezier(.34,1.56,.64,1) both}
 @keyframes cfRingPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
-.cf-ok-ring svg{animation:cfCheckDraw .4s .4s ease both}
-@keyframes cfCheckDraw{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}
+.cf-ok-ring polyline{stroke-dasharray:50;stroke-dashoffset:50;animation:cfCheckDraw .45s .45s ease both}
+@keyframes cfCheckDraw{to{stroke-dashoffset:0}}
 .cf-ok h3{font-family:var(--f-d);font-size:26px;font-weight:700;color:#fff;margin:0 0 12px;line-height:1.2}
 .cf-ok p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;max-width:340px;margin-inline:auto}
 @media(max-width:540px){.cf-row.two{grid-template-columns:1fr}}
@@ -2053,8 +2053,8 @@ footer{background:#0f1f18;padding:64px 40px 32px}
     </form>
     <div class="cf-ok" id="cf-ok">
       <div class="cf-ok-ring">
-        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-          <polyline points="7,18 14,25 27,10" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="30" stroke-dashoffset="30"/>
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <polyline points="8,21 17,30 32,11" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
       <h3>¡Consulta recibida!</h3>
