@@ -98,6 +98,42 @@ function countdownHtml(id, deadline) {
   </div>`;
 }
 
+// ── Modal ─────────────────────────────────────────────────────────────────────
+
+const _md = {};
+
+function showCard(key) {
+  const d = _md[key];
+  if (!d) return;
+  const imgEl = document.getElementById('cmodal-img');
+  imgEl.innerHTML = d.img
+    ? `<img src="${d.img}" alt="${d.titulo}" loading="lazy">`
+    : `<div class="card-img-bg ${d.bgClass}" style="height:100%;min-height:220px"><span class="pi-label">${d.titulo}</span></div>`;
+  document.getElementById('cmodal-badge').innerHTML = d.badge
+    ? `<span class="urg-badge ${badgeClass(d.tipo_badge)}">${d.badge}</span>` : '';
+  document.getElementById('cmodal-ttl').textContent = d.titulo;
+  document.getElementById('cmodal-desc').textContent = d.descripcion || '';
+  document.getElementById('cmodal-meta').innerHTML =
+    `${d.precio ? `<div class="cmodal-price">Desde <strong>${d.precio}</strong></div>` : ''}
+     ${d.duracion ? `<span class="cmodal-dur">${d.duracion}</span>` : ''}`;
+  document.getElementById('cmodal-wa').href = d.waUrl;
+  const modal = document.getElementById('cmodal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('cmodal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('cmodal').addEventListener('click', e => {
+    if (e.target === document.getElementById('cmodal')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+});
+
 // ── Renderizadores ────────────────────────────────────────────────────────────
 
 function buildCarousel(imgs, alt) {
@@ -160,8 +196,12 @@ function renderPaquetes(items) {
 
     const featClass = i === 0 ? ' feat' : '';
     const cat = (p.categoria || 'todos').toLowerCase().trim();
+    const mKey = `p${i}`;
+    _md[mKey] = { titulo:p.nombre, descripcion:p.descripcion, img:imgs[0]||'', bgClass:'pi-tk',
+      badge:p.badge, tipo_badge:p.tipo_badge, precio, duracion:p.duracion,
+      waUrl:buildWaMsg('paquete',{nombre:p.nombre,descripcion:p.descripcion,precio:p.precio,moneda:p.moneda,duracion:p.duracion}) };
     return `
-    <div class="dest-card r${featClass}" data-cat="${cat}">
+    <div class="dest-card r${featClass}" data-cat="${cat}" onclick="showCard('${mKey}')" style="cursor:pointer">
       <div class="card-img">
         ${imgHtml}
         <div class="img-ov"></div>
@@ -174,7 +214,7 @@ function renderPaquetes(items) {
           <div class="card-price">Desde <strong>${precio}</strong></div>
           <span class="card-dur">${p.duracion || ''}</span>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" onclick="event.stopPropagation()">
           <a href="${buildWaMsg('paquete', {nombre:p.nombre, descripcion:p.descripcion, precio:p.precio, moneda:p.moneda, duracion:p.duracion})}" class="btn-dest" target="_blank" style="flex:1;min-width:120px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Ver más
@@ -211,8 +251,12 @@ function renderOfertas(items) {
     const precioNuevo = o.precio_nuevo ? `${moneda} ${Number(o.precio_nuevo).toLocaleString('es-AR')}` : '';
     const precioOrig = o.precio_original ? `<span class="promo-old">${moneda} ${Number(o.precio_original).toLocaleString('es-AR')}</span>` : '';
 
+    const mKey = `o${i}`;
+    _md[mKey] = { titulo:o.nombre, descripcion:o.descripcion, img:o.imagen_1?driveToImg(o.imagen_1):'', bgClass:'pi-pc',
+      badge:o.badge_urgencia, tipo_badge:'promo', precio:precioNuevo, duracion:'',
+      waUrl:buildWaMsg('oferta',{nombre:o.nombre,descripcion:o.descripcion,precio:o.precio_nuevo,moneda:o.moneda}) };
     return `
-    <div class="promo-card r">
+    <div class="promo-card r" onclick="showCard('${mKey}')" style="cursor:pointer">
       <div class="promo-img pi-pc" style="${o.imagen_1 ? `background-image:url(${driveToImg(o.imagen_1)});background-size:cover;background-position:center` : ''}">
         ${o.badge_urgencia ? `<span class="promo-urg">${o.badge_urgencia}</span>` : ''}
       </div>
@@ -224,7 +268,7 @@ function renderOfertas(items) {
           <span class="promo-new">${precioNuevo}</span>
         </div>
         ${countdownHtml(`o${i}`, o.fecha_vencimiento)}
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" onclick="event.stopPropagation()">
           <a href="${buildWaMsg('oferta', {nombre:o.nombre, descripcion:o.descripcion, precio:o.precio_nuevo, moneda:o.moneda})}" class="btn-dest" target="_blank" style="flex:1;min-width:140px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
             Quiero esta oferta
@@ -293,8 +337,12 @@ function renderCircuitos(items) {
       ? `style="background-image:url(${driveToImg(c.imagen_1)});background-size:cover;background-position:center"`
       : 'class="circ-img bg-grupales"';
 
+    const mKey = `c${i}`;
+    _md[mKey] = { titulo:c.nombre, descripcion:c.descripcion||c.ruta||'', img:c.imagen_1?driveToImg(c.imagen_1):'', bgClass:'bg-grupales',
+      badge:c.badge, tipo_badge:'promo', precio, duracion:c.duracion,
+      waUrl:buildWaMsg('circuito',{nombre:c.nombre,ruta:c.ruta,precio:c.precio,moneda:c.moneda,duracion:c.duracion}) };
     return `
-    <div class="circ-card r ${delay}">
+    <div class="circ-card r ${delay}" onclick="showCard('${mKey}')" style="cursor:pointer">
       <div class="circ-img" ${bgStyle}>
         ${c.badge ? `<span class="circ-badge">${c.badge}</span>` : ''}
       </div>
@@ -308,7 +356,7 @@ function renderCircuitos(items) {
         <div class="card-foot">
           <div class="card-price">Desde <strong>${precio}</strong></div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px" onclick="event.stopPropagation()">
           <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
              class="btn-dest" target="_blank" style="flex:1;min-width:130px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
@@ -338,8 +386,12 @@ function renderCruceros(items) {
       ? `style="background-image:url(${driveToImg(c.imagen_1)});background-size:cover;background-position:center"`
       : '';
 
+    const mKey = `cr${i}`;
+    _md[mKey] = { titulo:c.nombre, descripcion:c.descripcion||c.ruta||'', img:c.imagen_1?driveToImg(c.imagen_1):'', bgClass:'pi-cr',
+      badge:c.badge, tipo_badge:'promo', precio, duracion:c.duracion,
+      waUrl:buildWaMsg('circuito',{nombre:c.nombre,ruta:c.ruta,precio:c.precio,moneda:c.moneda,duracion:c.duracion}) };
     return `
-    <div class="circ-card r ${delay}">
+    <div class="circ-card r ${delay}" onclick="showCard('${mKey}')" style="cursor:pointer">
       <div class="circ-img" ${bgStyle}>
         ${c.badge ? `<span class="circ-badge">${c.badge}</span>` : ''}
       </div>
@@ -354,7 +406,7 @@ function renderCruceros(items) {
         <div class="card-foot">
           <div class="card-price">Desde <strong>${precio}</strong></div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px" onclick="event.stopPropagation()">
           <a href="${buildWaMsg('circuito', {nombre:c.nombre, ruta:c.ruta, precio:c.precio, moneda:c.moneda, duracion:c.duracion})}"
              class="btn-dest" target="_blank" style="flex:1;min-width:130px">
             <svg width="15" height="15"><use href="#ic-wa"/></svg>
