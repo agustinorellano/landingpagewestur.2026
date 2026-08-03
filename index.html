@@ -2593,12 +2593,24 @@ document.addEventListener('click', e => {
 <script>
 (function(){
   const NL_KEY = 'nlpop-done';
-  if (!localStorage.getItem(NL_KEY)) {
+  if (localStorage.getItem(NL_KEY)) return;
+
+  function startTimer() {
     setTimeout(function(){
       const el = document.getElementById('nlpop');
       if (el) el.classList.add('open');
     }, 10000);
   }
+
+  if (localStorage.getItem('westur_cookies')) {
+    startTimer();
+  } else {
+    ['ck-ok','ck-no'].forEach(function(id){
+      const btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', startTimer, {once:true});
+    });
+  }
+
   document.getElementById('nlpop').addEventListener('click', function(e){
     if (e.target === this) nlpopClose();
   });
