@@ -576,6 +576,34 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .cf-ok p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;max-width:340px;margin-inline:auto}
 @media(max-width:540px){.cf-row.two{grid-template-columns:1fr}}
 
+/* ── POPUP NEWSLETTER ── */
+.nlpop-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9100;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.nlpop-ov.open{display:flex;animation:nlFadeIn .25s ease}
+@keyframes nlFadeIn{from{opacity:0}to{opacity:1}}
+.nlpop-box{background:#fff;border-radius:20px;max-width:480px;width:100%;display:flex;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.3);animation:nlSlideUp .3s ease}
+@keyframes nlSlideUp{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.nlpop-img{width:42%;background:linear-gradient(160deg,#1F4D3A 0%,#2e7d55 55%,#4a9e78 100%);padding:28px 20px;display:flex;flex-direction:column;justify-content:space-between;position:relative;flex-shrink:0}
+.nlpop-plane{color:rgba(255,255,255,.25);position:absolute;top:20px;left:20px}
+.nlpop-dests{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.nlpop-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.13);border-radius:20px;padding:6px 12px;color:rgba(255,255,255,.9);font-size:12px;font-weight:500;width:fit-content}
+.nlpop-pill svg{opacity:.8;flex-shrink:0}
+.nlpop-body{padding:32px 26px;display:flex;flex-direction:column;gap:14px;flex:1}
+.nlpop-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--v)}
+.nlpop-ttl{font-family:var(--f-d);font-size:21px;font-weight:700;color:var(--txt);line-height:1.25}
+.nlpop-sub{font-size:13px;color:var(--txt2);line-height:1.65;margin-bottom:2px}
+.nlpop-input{width:100%;border:1.5px solid var(--div);border-radius:9px;padding:12px 14px;font-family:var(--f-u);font-size:13.5px;color:var(--txt);outline:none;transition:border-color .2s;box-sizing:border-box}
+.nlpop-input:focus{border-color:var(--v)}
+.nlpop-btn{width:100%;background:var(--v);color:#fff;border:none;border-radius:9px;padding:13px;font-family:var(--f-u);font-size:14px;font-weight:700;cursor:pointer;transition:background .2s}
+.nlpop-btn:hover{background:var(--vh)}
+.nlpop-btn:disabled{opacity:.55;cursor:default}
+.nlpop-skip{font-size:11.5px;color:#bbb;text-align:center;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:var(--f-u);width:100%}
+.nlpop-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.nlpop-ok{display:none;flex-direction:column;align-items:center;text-align:center;padding:32px 26px;gap:12px}
+.nlpop-ok-ring{width:64px;height:64px;border-radius:50%;background:rgba(31,77,58,.1);display:flex;align-items:center;justify-content:center;color:var(--v)}
+.nlpop-ok h3{font-family:var(--f-d);font-size:20px;font-weight:700;color:var(--txt)}
+.nlpop-ok p{font-size:13px;color:var(--txt2);line-height:1.6}
+@media(max-width:460px){.nlpop-img{display:none}.nlpop-box{border-radius:16px}}
+
 /* ── FOOTER ── */
 footer{background:#0f1f18;padding:64px 40px 32px}
 .foot-g{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:48px}
@@ -2165,6 +2193,49 @@ footer{background:#0f1f18;padding:64px 40px 32px}
   </div>
 </div>
 
+<!-- POPUP NEWSLETTER -->
+<div id="nlpop" class="nlpop-ov" role="dialog" aria-modal="true" aria-labelledby="nlpop-ttl">
+  <div class="nlpop-box" style="position:relative">
+    <button class="nlpop-close" aria-label="Cerrar" onclick="nlpopClose()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M6 18L18 6"/></svg>
+    </button>
+    <div class="nlpop-img">
+      <div class="nlpop-plane">
+        <svg width="36" height="36"><use href="#ic-plane"/></svg>
+      </div>
+      <div class="nlpop-dests">
+        <div class="nlpop-pill">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><use href="#ic-sun"/></svg>
+          Caribe
+        </div>
+        <div class="nlpop-pill">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><use href="#ic-mountain"/></svg>
+          Patagonia
+        </div>
+        <div class="nlpop-pill">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><use href="#ic-map"/></svg>
+          Europa
+        </div>
+      </div>
+    </div>
+    <div class="nlpop-body" id="nlpop-form-wrap">
+      <span class="nlpop-eyebrow">Ofertas exclusivas</span>
+      <h2 class="nlpop-ttl" id="nlpop-ttl">Los mejores viajes, antes que nadie</h2>
+      <p class="nlpop-sub">Suscribite y recibí las promociones que no publicamos en redes.</p>
+      <input class="nlpop-input" id="nlpop-email" type="email" placeholder="tu@email.com" autocomplete="email">
+      <button class="nlpop-btn" id="nlpop-btn" onclick="nlpopSubmit()">Quiero recibirlas</button>
+      <button class="nlpop-skip" onclick="nlpopClose()">No gracias, me las pierdo</button>
+    </div>
+    <div class="nlpop-ok" id="nlpop-ok">
+      <div class="nlpop-ok-ring">
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+      </div>
+      <h3>¡Ya sos parte!</h3>
+      <p>Te vamos a escribir con las mejores ofertas. Bienvenido a Westur.</p>
+    </div>
+  </div>
+</div>
+
 <!-- COOKIE BANNER -->
 <div id="cookie-banner" style="display:none">
   <p class="ck-txt">Usamos cookies para mejorar tu experiencia en el sitio. Al continuar, aceptás su uso. <a href="#">Política de privacidad</a></p>
@@ -2520,6 +2591,43 @@ document.addEventListener('click', e => {
 })();
 </script>
 <script>
+(function(){
+  const NL_KEY = 'nlpop-done';
+  if (!localStorage.getItem(NL_KEY)) {
+    setTimeout(function(){
+      const el = document.getElementById('nlpop');
+      if (el) el.classList.add('open');
+    }, 10000);
+  }
+  document.getElementById('nlpop').addEventListener('click', function(e){
+    if (e.target === this) nlpopClose();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') nlpopClose(); });
+})();
+
+function nlpopClose() {
+  document.getElementById('nlpop').classList.remove('open');
+  localStorage.setItem('nlpop-done', '1');
+}
+
+async function nlpopSubmit() {
+  const email = document.getElementById('nlpop-email').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('nlpop-email').focus();
+    return;
+  }
+  const btn = document.getElementById('nlpop-btn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  try {
+    await fetch(NEWSLETTER_URL + '?action=newsletter&email=' + encodeURIComponent(email));
+  } catch(_) {}
+  document.getElementById('nlpop-form-wrap').style.display = 'none';
+  document.getElementById('nlpop-ok').style.display = 'flex';
+  localStorage.setItem('nlpop-done', '1');
+  setTimeout(nlpopClose, 3000);
+}
+
 (function(){
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4oYKrSHS7NZqIjXafTi0OPToEDPUTJKx9AMg5DRO3lqRDtfGxatraQ3pMVUiOO9Oyzg/exec';
   const form = document.getElementById('cf-form');
