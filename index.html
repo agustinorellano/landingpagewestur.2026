@@ -2632,8 +2632,14 @@ async function nlpopSubmit() {
   btn.disabled = true;
   btn.textContent = 'Enviando…';
   try {
-    await fetch(NEWSLETTER_URL + '?action=newsletter&email=' + encodeURIComponent(email));
-  } catch(_) {}
+    const res = await fetch(NEWSLETTER_URL + '?action=newsletter&email=' + encodeURIComponent(email));
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error);
+  } catch(_) {
+    btn.disabled = false;
+    btn.textContent = 'Quiero recibirlas';
+    return;
+  }
   document.getElementById('nlpop-form-wrap').style.display = 'none';
   document.getElementById('nlpop-ok').style.display = 'flex';
   localStorage.setItem('nlpop-done', '1');
