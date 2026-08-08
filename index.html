@@ -279,7 +279,8 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
 .card-b p{font-size:12.5px;color:var(--txt2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cmodal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
 .cmodal-ov.open{display:flex}
-.cmodal-box{background:#fff;border-radius:18px;max-width:460px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.cmodal-box{background:#fff;border-radius:18px;max-width:460px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.25);scrollbar-width:none;-ms-overflow-style:none}
+.cmodal-box::-webkit-scrollbar{display:none}
 .cmodal-img{width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:18px 18px 0 0;background:#e0ddd8}
 .cmodal-img img{width:100%;height:100%;object-fit:cover;display:block}
 .cmodal-img .card-img-bg{width:100%;height:100%}
@@ -970,140 +971,11 @@ footer{background:#0f1f18;padding:64px 40px 32px}
       <button class="filtro-btn" data-f="caribe">Caribe</button>
       <button class="filtro-btn" data-f="europa">Europa</button>
       <button class="filtro-btn" data-f="nacional">Nacional</button>
+      <button class="filtro-btn" data-f="brasil">Brasil</button>
       <a class="filtro-btn" href="#cruceros">Cruceros ↓</a>
     </div>
 
     <div class="dest-grid">
-
-      <div class="dest-card r" data-cat="europa">
-        <div class="card-img">
-          <img src="img/paquete-turquia-paisaje.webp" alt="Turquía y Grecia" style="height:270px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Turquía &amp; Grecia</span>
-          <div class="img-ov"></div>
-          <span class="card-tag tag-g">Más vendido</span>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-hot">Alta demanda esta temporada</span>
-          <h3>Turquía &amp; Grecia</h3>
-          <p>Historia, cultura y el mar más azul del mundo</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 2.190</strong></div>
-            <span class="card-dur">14 noches</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20Turquía%20y%20Grecia." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
-      <div class="dest-card r r1" data-cat="caribe">
-        <div class="card-img">
-          <img src="img/paquete-puntacana-playa.jpg" alt="Punta Cana" style="height:210px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Punta Cana</span>
-          <div class="img-ov"></div>
-          <span class="card-tag tag-d">Alta demanda</span>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-cupos">Solo 4 cupos disponibles</span>
-          <h3>Punta Cana</h3>
-          <p>Arena blanca, agua turquesa y relax total</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 1.490</strong></div>
-            <span class="card-dur">7 noches</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20Punta%20Cana." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
-      <div class="dest-card r r2" data-cat="europa">
-        <div class="card-img">
-          <img src="img/paquete-europa-italia-croacia.jpg" alt="Circuitos por Europa" style="height:210px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Europa</span>
-          <div class="img-ov"></div>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-promo">Precio especial de temporada</span>
-          <h3>Circuitos por Europa</h3>
-          <p>Múltiples países, una sola experiencia inolvidable</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 3.200</strong></div>
-            <span class="card-dur">15–22 días</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20un%20circuito%20por%20Europa." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
-      <div class="dest-card r" data-cat="nacional">
-        <div class="card-img">
-          <img src="img/hero-patagonia.jpg" alt="Patagonia Argentina" style="height:210px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Patagonia Argentina</span>
-          <div class="img-ov"></div>
-          <span class="card-tag tag-g">Turismo nacional</span>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-cupos">Solo 12 plazas · Próxima salida</span>
-          <h3>Patagonia Argentina</h3>
-          <p>El sur que te cambia para siempre</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>$850.000</strong></div>
-            <span class="card-dur">8 noches</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20Patagonia." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
-      <div class="dest-card r r1" data-cat="cruceros">
-        <div class="card-img">
-          <img src="img/crucero-exterior-noche.jpg" alt="Cruceros" style="height:210px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Cruceros</span>
-          <div class="img-ov"></div>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-promo">Financiación sin interés disponible</span>
-          <h3>Cruceros</h3>
-          <p>El mundo en un barco. Todo incluido.</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 980</strong></div>
-            <span class="card-dur">7–14 noches</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesan%20los%20cruceros." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
-      <div class="dest-card r r2" data-cat="nacional">
-        <div class="card-img">
-          <img src="img/ibera.jpg" alt="Esteros del Iberá" style="height:210px;width:100%;object-fit:cover;display:block">
-          <span class="pi-label">Esteros del Iberá</span>
-          <div class="img-ov"></div>
-        </div>
-        <div class="card-b">
-          <span class="urg-badge urg-hot">Temporada limitada</span>
-          <h3>Esteros del Iberá</h3>
-          <p>La naturaleza más salvaje de Argentina</p>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>$320.000</strong></div>
-            <span class="card-dur">4 noches</span>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesan%20los%20Esteros%20del%20Iberá." class="btn-dest" target="_blank">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Ver más
-          </a>
-        </div>
-      </div>
-
     </div>
     <div class="sec-cta r">
       <a href="https://wa.me/541140919506?text=Hola!%20Quiero%20consultar%20sobre%20un%20paquete%20que%20no%20encuentro." class="link-v" target="_blank">
@@ -1304,47 +1176,6 @@ footer{background:#0f1f18;padding:64px 40px 32px}
         <p style="font-size:15px;color:var(--txt2);font-weight:300">Cupos limitados por salida. Reservá tu lugar con anticipación.</p>
       </div>
       <div class="salidas-list">
-
-        <div class="salida-row r">
-          <div class="salida-fecha"><div class="salida-fecha-d">18</div><div class="salida-fecha-m">Jul</div></div>
-          <div class="salida-info"><h4>Turquía &amp; Grecia</h4><p>Estambul · Capadocia · Atenas · Santorini · Guía en español incluido</p></div>
-          <div class="salida-dur">14 noches</div>
-          <div class="salida-cupos pocos"><div class="salida-cupos-n">3</div><div class="salida-cupos-l">cupos</div></div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20la%20salida%20grupal%20a%20Turquía%20y%20Grecia%20del%2018%20de%20julio." class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
-            <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
-          </a>
-        </div>
-
-        <div class="salida-row r">
-          <div class="salida-fecha"><div class="salida-fecha-d">02</div><div class="salida-fecha-m">Ago</div></div>
-          <div class="salida-info"><h4>Europa Clásica</h4><p>París · Roma · Barcelona · Amsterdam · Bus panorámico</p></div>
-          <div class="salida-dur">16 noches</div>
-          <div class="salida-cupos"><div class="salida-cupos-n">8</div><div class="salida-cupos-l">cupos</div></div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20la%20salida%20grupal%20Europa%20Clásica%20del%202%20de%20agosto." class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
-            <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
-          </a>
-        </div>
-
-        <div class="salida-row r">
-          <div class="salida-fecha"><div class="salida-fecha-d">15</div><div class="salida-fecha-m">Ago</div></div>
-          <div class="salida-info"><h4>Patagonia Soñada</h4><p>El Calafate · Ushuaia · Torres del Paine · Traslados incluidos</p></div>
-          <div class="salida-dur">10 noches</div>
-          <div class="salida-cupos"><div class="salida-cupos-n">12</div><div class="salida-cupos-l">cupos</div></div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20la%20salida%20grupal%20Patagonia%20del%2015%20de%20agosto." class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
-            <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
-          </a>
-        </div>
-
-        <div class="salida-row r">
-          <div class="salida-fecha"><div class="salida-fecha-d">05</div><div class="salida-fecha-m">Sep</div></div>
-          <div class="salida-info"><h4>Israel &amp; Jordania</h4><p>Tel Aviv · Jerusalén · Mar Muerto · Petra · Tierra Santa</p></div>
-          <div class="salida-dur">12 noches</div>
-          <div class="salida-cupos pocos"><div class="salida-cupos-n">5</div><div class="salida-cupos-l">cupos</div></div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20la%20salida%20grupal%20Israel%20y%20Jordania%20del%205%20de%20septiembre." class="btn-dest" target="_blank" style="width:auto;padding:10px 18px;white-space:nowrap">
-            <svg width="14" height="14"><use href="#ic-wa"/></svg> Reservar
-          </a>
-        </div>
-
       </div>
       <div class="sec-cta r" style="margin-top:28px">
         <a href="https://wa.me/541140919506?text=Hola!%20Quiero%20ver%20todas%20las%20salidas%20grupales%20disponibles." class="link-v" target="_blank">
@@ -1365,91 +1196,6 @@ footer{background:#0f1f18;padding:64px 40px 32px}
       <p>Itinerarios multi-destino completamente organizados. Recorrés varios países en un viaje, con todo resuelto de antemano.</p>
     </div>
     <div class="circ-grid">
-
-      <div class="circ-card r">
-        <div class="circ-img bg-grupales">
-          <!-- img/circ-turkia-grecia.jpg -->
-          <span class="circ-badge">Más vendido</span>
-        </div>
-        <div class="circ-b">
-          <div class="circ-route">
-            <span>Estambul</span><span class="circ-dot"></span>
-            <span>Capadocia</span><span class="circ-dot"></span>
-            <span>Atenas</span><span class="circ-dot"></span>
-            <span>Santorini</span>
-          </div>
-          <h3>Turquía &amp; Grecia</h3>
-          <div class="circ-tags">
-            <span class="circ-tag">14 noches</span>
-            <span class="circ-tag">Guía incluido</span>
-            <span class="circ-tag">Aéreo opcional</span>
-          </div>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 2.190</strong></div>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20el%20circuito%20Turquía%20y%20Grecia." class="btn-dest" target="_blank" style="margin-top:14px">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Consultar por circuito
-          </a>
-        </div>
-      </div>
-
-      <div class="circ-card r r1">
-        <div class="circ-img bg-europa">
-          <!-- img/circ-europa.jpg -->
-          <span class="circ-badge">Alta demanda</span>
-        </div>
-        <div class="circ-b">
-          <div class="circ-route">
-            <span>París</span><span class="circ-dot"></span>
-            <span>Roma</span><span class="circ-dot"></span>
-            <span>Barcelona</span><span class="circ-dot"></span>
-            <span>Amsterdam</span>
-          </div>
-          <h3>Europa Clásica</h3>
-          <div class="circ-tags">
-            <span class="circ-tag">16 noches</span>
-            <span class="circ-tag">Guía incluido</span>
-            <span class="circ-tag">Bus panorámico</span>
-          </div>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 3.400</strong></div>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20el%20circuito%20Europa%20Clásica." class="btn-dest" target="_blank" style="margin-top:14px">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Consultar por circuito
-          </a>
-        </div>
-      </div>
-
-      <div class="circ-card r r2">
-        <div class="circ-img bg-circuitos">
-          <!-- img/circ-mediterraneo.jpg -->
-          <span class="circ-badge">Nuevo</span>
-        </div>
-        <div class="circ-b">
-          <div class="circ-route">
-            <span>Tel Aviv</span><span class="circ-dot"></span>
-            <span>Jerusalén</span><span class="circ-dot"></span>
-            <span>Mar Muerto</span><span class="circ-dot"></span>
-            <span>Petra</span>
-          </div>
-          <h3>Israel &amp; Jordania</h3>
-          <div class="circ-tags">
-            <span class="circ-tag">12 noches</span>
-            <span class="circ-tag">Guía incluido</span>
-            <span class="circ-tag">Tierra Santa</span>
-          </div>
-          <div class="card-foot">
-            <div class="card-price">Desde <strong>USD 2.890</strong></div>
-          </div>
-          <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20el%20circuito%20Israel%20y%20Jordania." class="btn-dest" target="_blank" style="margin-top:14px">
-            <svg width="15" height="15"><use href="#ic-wa"/></svg>
-            Consultar por circuito
-          </a>
-        </div>
-      </div>
-
     </div>
     <div class="sec-cta r" style="margin-top:32px">
       <a href="https://wa.me/541140919506?text=Hola!%20Quiero%20ver%20todos%20los%20circuitos%20disponibles." class="link-v" target="_blank">
@@ -1469,16 +1215,6 @@ footer{background:#0f1f18;padding:64px 40px 32px}
       <p>Recorré los mejores destinos del planeta con todo incluido. Te asesoramos en la elección de cabina, compañía de crucero y ruta ideal para vos.</p>
     </div>
     <div class="circ-grid">
-      <!-- CMS: cruceros se inyectan aquí -->
-      <div class="circ-card r">
-        <div class="circ-img" style="background:#e8f0ec"></div>
-        <div class="circ-b">
-          <div class="circ-route"><span>Cargando cruceros...</span></div>
-          <h3>MSC Mediterráneo</h3>
-          <div class="circ-tags"><span class="circ-tag">7 noches</span><span class="circ-tag">MSC Cruceros</span></div>
-          <div class="card-foot"><div class="card-price">Desde <strong>USD 1.290</strong></div></div>
-        </div>
-      </div>
     </div>
     <div class="sec-cta r" style="margin-top:32px">
       <a href="https://wa.me/541140919506?text=Hola!%20Quiero%20consultar%20sobre%20cruceros." class="btn-cta" target="_blank" style="font-size:15px;padding:14px 26px">
@@ -1542,118 +1278,6 @@ footer{background:#0f1f18;padding:64px 40px 32px}
       </a>
     </div>
     <div class="promo-grid">
-      <div class="promo-card r">
-        <div class="promo-img">
-          <img src="https://agustinorellano.github.io/landingpagewestur.2026/img/foto-Punta-Cana.jpeg" alt="Punta Cana">
-          <span class="promo-urg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
-            Solo 4 cupos disponibles
-          </span>
-        </div>
-        <div class="promo-b">
-          <h3>Punta Cana — 7 noches</h3>
-          <p class="promo-det">Vuelo + Hotel Todo Incluido · Salida desde Buenos Aires</p>
-          <div class="promo-pr">
-            <span class="promo-old">USD 1.890</span>
-            <span class="promo-new">USD 1.490</span>
-          </div>
-          <div class="countdown" id="cd-1" data-deadline="2026-07-15T23:59:59">
-            <span class="cd-label">Oferta vence en</span>
-            <div class="cd-units">
-              <div class="cd-block"><span class="cd-num" data-cd="d">--</span><span class="cd-unit">días</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="h">--</span><span class="cd-unit">hs</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="m">--</span><span class="cd-unit">min</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="s">--</span><span class="cd-unit">seg</span></div>
-            </div>
-          </div>
-          <div class="promo-btns">
-            <a href="https://wa.me/541140919506?text=Hola!%20Vi%20la%20oferta%20de%20Punta%20Cana%20y%20me%20interesa." class="btn-promo-wa" target="_blank">
-              <svg width="15" height="15"><use href="#ic-wa"/></svg>
-              Quiero esta oferta
-            </a>
-            <button class="btn-promo-sh" onclick="navigator.share ? navigator.share({title:'Punta Cana — 7 noches',url:window.location.href+'#ofertas'}) : null">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="promo-card r r1">
-        <div class="promo-img" style="background:#1a3a2a;position:relative">
-          <img src="img/paquete-nacional-ushuaia-calafate.jpg" alt="Patagonia Soñada" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-          <span class="promo-urg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
-            Solo 12 plazas disponibles
-          </span>
-        </div>
-        <div class="promo-b">
-          <h3>Patagonia Soñada — 8 noches</h3>
-          <p class="promo-det">El Calafate + Ushuaia + Traslados incluidos</p>
-          <div class="promo-pr">
-            <span class="promo-new">$ 850.000</span>
-          </div>
-          <div class="countdown" id="cd-2" data-deadline="2026-07-20T23:59:59">
-            <span class="cd-label">Oferta vence en</span>
-            <div class="cd-units">
-              <div class="cd-block"><span class="cd-num" data-cd="d">--</span><span class="cd-unit">días</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="h">--</span><span class="cd-unit">hs</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="m">--</span><span class="cd-unit">min</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="s">--</span><span class="cd-unit">seg</span></div>
-            </div>
-          </div>
-          <div class="promo-btns">
-            <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20Patagonia%20Sonada." class="btn-promo-wa" target="_blank">
-              <svg width="15" height="15"><use href="#ic-wa"/></svg>
-              Quiero esta oferta
-            </a>
-            <button class="btn-promo-sh" onclick="navigator.share ? navigator.share({title:'Patagonia Soñada',url:window.location.href+'#ofertas'}) : null">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="promo-card r r2">
-        <div class="promo-img">
-          <img src="https://agustinorellano.github.io/landingpagewestur.2026/img/turquia.webp" alt="Turquía">
-          <span class="promo-urg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/></svg>
-            Alta demanda
-          </span>
-        </div>
-        <div class="promo-b">
-          <h3>Turquía &amp; Grecia — 14 noches</h3>
-          <p class="promo-det">Circuito completo · Guía en español incluido</p>
-          <div class="promo-pr">
-            <span class="promo-new">USD 2.190</span>
-          </div>
-          <div class="countdown" id="cd-3" data-deadline="2026-07-31T23:59:59">
-            <span class="cd-label">Oferta vence en</span>
-            <div class="cd-units">
-              <div class="cd-block"><span class="cd-num" data-cd="d">--</span><span class="cd-unit">días</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="h">--</span><span class="cd-unit">hs</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="m">--</span><span class="cd-unit">min</span></div>
-              <span class="cd-sep">:</span>
-              <div class="cd-block"><span class="cd-num" data-cd="s">--</span><span class="cd-unit">seg</span></div>
-            </div>
-          </div>
-          <div class="promo-btns">
-            <a href="https://wa.me/541140919506?text=Hola!%20Me%20interesa%20el%20viaje%20a%20Turquia%20y%20Grecia." class="btn-promo-wa" target="_blank">
-              <svg width="15" height="15"><use href="#ic-wa"/></svg>
-              Quiero esta oferta
-            </a>
-            <button class="btn-promo-sh" onclick="navigator.share ? navigator.share({title:'Turquia y Grecia',url:window.location.href+'#ofertas'}) : null">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
     <p style="text-align:center;margin-top:18px;font-size:12px;color:var(--txt2)">Precios por persona en base doble. Consulta disponibilidad y condiciones vigentes.</p>
   </div>

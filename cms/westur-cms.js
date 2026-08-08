@@ -240,7 +240,13 @@ function renderPaquetes(items) {
 
 function renderOfertas(items) {
   const grid = document.querySelector('#ofertas .promo-grid');
-  if (!grid || !items.length) return;
+  const sec = document.getElementById('ofertas');
+  if (!grid) return;
+  if (!items.length) {
+    if (sec) sec.style.display = 'none';
+    return;
+  }
+  if (sec) sec.style.display = '';
 
   grid.innerHTML = items.map((o, i) => {
     const imgHtml = o.imagen_1 && o.imagen_1.startsWith('http')

@@ -1,21 +1,57 @@
 const NEWSLETTER_SHEET_ID = '1EqRNCQxmr9oP50a5nV32ZOVDFcnK4VhnGLM8aRTMRMs';
+const CMS_SHEET_ID = '1r4TA2P3vsq7oKnEQwApro6kTh58gia8h_lPJDVGw2CY';
 
 function doGet(e) {
-  const action = e.parameter.action;
+  const action = e && e.parameter && e.parameter.action;
 
-  if (action === 'newsletter') {
-    return handleNewsletter(e.parameter.email || '');
-  }
+  if (action === 'newsletter')   return handleNewsletter(e.parameter.email || '');
+  if (action === 'contacto')     return handleContacto(e.parameter);
+  if (action === 'ofertaExpire') return handleOfertaExpire(e.parameter);
 
-  if (action === 'contacto') {
-    return handleContacto(e.parameter);
-  }
+  // Sin action = solicitud de datos CMS
+  const ss = SpreadsheetApp.openById(CMS_SHEET_ID);
+  const data = {
+    paquetes:         parseSheet(ss, 'Paquetes'),
+    ofertas:          parseSheet(ss, 'Ofertas'),
+    salidas_grupales: parseSheet(ss, 'Salidas Grupales'),
+    circuitos:        parseSheet(ss, 'Circuitos'),
+    cruceros:         parseSheet(ss, 'Cruceros'),
+  };
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
-  if (action === 'ofertaExpire') {
-    return handleOfertaExpire(e.parameter);
-  }
+function parseSheet(ss, name) {
+  const sheet = ss.getSheetByName(name);
+  if (!sheet) return [];
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length < 2) return [];
+  const headers = rows[0].map(h =>
+    h.toString().toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/\s+/g, '_')
+  );
+  return rows.slice(1)
+    .filter(row => (row[0] || '').toString().trim().toUpperCase() === 'SI')
+    .map(row => {
+      const obj = {};
+      headers.forEach((h, i) => {
+        obj[h] = row[i] !== undefined ? row[i].toString().trim() : '';
+      });
+      return obj;
+    });
+}
 
-  return respond({ ok: false, error: 'Acción no reconocida' });
+function driveUrlToImg(url) {
+  if (!url) return '';
+  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m1) return `https://drive.google.com/thumbnail?id=${m1[1]}&sz=w800`;
+  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m2) return `https://drive.google.com/thumbnail?id=${m2[1]}&sz=w800`;
+  const m3 = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m3) return `https://drive.google.com/thumbnail?id=${m3[1]}&sz=w800`;
+  return url;
 }
 
 function handleNewsletter(email) {
@@ -94,58 +130,56 @@ function handleContacto(p) {
 function handleOfertaExpire(p) {
   try {
     const titulo = (p.titulo || '').trim();
-    const deadline = p.deadline || '';
     if (!titulo) return respond({ ok: false, error: 'Falta titulo' });
 
-    const ss = SpreadsheetApp.openById(NEWSLETTER_SHEET_ID);
-    let sheet = ss.getSheetByName('Ofertas');
+    const ss = SpreadsheetApp.openById(CMS_SHEET_ID);
+    const sheet = ss.getSheetByName('Ofertas');
+    if (!sheet || sheet.getLastRow() < 2) return respond({ ok: false, error: 'Hoja Ofertas no encontrada' });
 
-    if (!sheet) {
-      sheet = ss.insertSheet('Ofertas');
-      const cols = ['Titulo', 'Deadline', 'Activo', 'Fecha expiración'];
-      const header = sheet.getRange(1, 1, 1, cols.length);
-      header.setValues([cols]);
-      header.setFontWeight('bold');
-      sheet.setFrozenRows(1);
-      [300, 180, 80, 200].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
-    }
+    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(h =>
+      h.toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '_')
+    );
+    const nombreIdx = headers.indexOf('nombre');
+    const activoIdx = 0; // primera columna siempre es Activo
 
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      const data = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
-      for (let i = 0; i < data.length; i++) {
-        if (data[i][0] === titulo) {
-          if (data[i][2] !== 'No') {
-            sheet.getRange(i + 2, 3).setValue('No');
-            sheet.getRange(i + 2, 4).setValue(new Date());
-          }
-          return respond({ ok: true });
-        }
+    if (nombreIdx < 0) return respond({ ok: false, error: 'Columna nombre no encontrada' });
+
+    const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][nombreIdx].toString().trim() === titulo) {
+        sheet.getRange(i + 2, activoIdx + 1).setValue('NO');
+        return respond({ ok: true });
       }
     }
 
-    sheet.appendRow([titulo, deadline, 'No', new Date()]);
-    return respond({ ok: true });
+    return respond({ ok: false, error: 'Oferta no encontrada' });
   } catch (err) {
     return respond({ ok: false, error: err.toString() });
   }
 }
 
-// Trigger diario automático — configurar en Apps Script:
+// Trigger diario — configurar en Apps Script:
 // Extensiones → Apps Script → Triggers → Agregar trigger → checkExpiredOffers → Time-driven → Day timer
 function checkExpiredOffers() {
-  const ss = SpreadsheetApp.openById(NEWSLETTER_SHEET_ID);
+  const ss = SpreadsheetApp.openById(CMS_SHEET_ID);
   const sheet = ss.getSheetByName('Ofertas');
   if (!sheet || sheet.getLastRow() < 2) return;
 
-  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(h =>
+    h.toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '_')
+  );
+  const deadlineIdx = ['deadline', 'vencimiento', 'fecha_vencimiento', 'fecha_limite'].map(k => headers.indexOf(k)).find(i => i >= 0);
+  if (deadlineIdx === undefined) return;
+
+  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
   const now = new Date();
 
   data.forEach((row, i) => {
-    const dl = new Date(row[1]);
-    if (row[2] !== 'No' && dl < now) {
-      sheet.getRange(i + 2, 3).setValue('No');
-      sheet.getRange(i + 2, 4).setValue(now);
+    const activo = (row[0] || '').toString().trim().toUpperCase();
+    if (activo !== 'SI') return;
+    const dl = new Date(row[deadlineIdx]);
+    if (!isNaN(dl) && dl < now) {
+      sheet.getRange(i + 2, 1).setValue('NO');
     }
   });
 }
