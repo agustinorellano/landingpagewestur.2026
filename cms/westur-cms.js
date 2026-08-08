@@ -83,6 +83,8 @@ function badgeClass(tipo) {
 
 function countdownHtml(id, deadline) {
   if (!deadline) return '';
+  const parsed = new Date(deadline);
+  if (isNaN(parsed.getTime())) return '';
   return `
   <div class="countdown" id="cd-${id}" data-deadline="${deadline}T23:59:59">
     <span class="cd-label">Oferta vence en</span>

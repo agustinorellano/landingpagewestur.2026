@@ -1856,6 +1856,7 @@ document.querySelectorAll('.filtro-btn').forEach(btn=>{
 function initCountdowns(){
   document.querySelectorAll('.countdown[data-deadline]').forEach(cd=>{
     const deadline=new Date(cd.dataset.deadline).getTime();
+    if(isNaN(deadline)){cd.style.display='none';return;}
     const card=cd.closest('.promo-card');
     function expireCard(){
       if(!card)return;
