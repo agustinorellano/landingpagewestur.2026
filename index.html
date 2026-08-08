@@ -2243,12 +2243,24 @@ document.querySelectorAll('.filtro-btn').forEach(btn=>{
 function initCountdowns(){
   document.querySelectorAll('.countdown[data-deadline]').forEach(cd=>{
     const deadline=new Date(cd.dataset.deadline).getTime();
+    const card=cd.closest('.promo-card');
+    function expireCard(){
+      if(!card)return;
+      card.style.transition='opacity .4s';
+      card.style.opacity='0';
+      setTimeout(()=>{
+        card.style.display='none';
+        setTimeout(()=>{
+          const allHidden=[...document.querySelectorAll('#ofertas .promo-card')].every(c=>c.style.display==='none');
+          if(allHidden){const sec=document.getElementById('ofertas');if(sec)sec.style.display='none';}
+        },50);
+      },400);
+      const titulo=card.querySelector('h3');
+      if(titulo)fetch(NEWSLETTER_URL+'?action=ofertaExpire&titulo='+encodeURIComponent(titulo.textContent.trim())+'&deadline='+encodeURIComponent(cd.dataset.deadline)).catch(()=>{});
+    }
     function tick(){
       const diff=deadline-Date.now();
-      if(diff<=0){
-        cd.innerHTML='<span class="cd-label" style="color:#dc2626;font-weight:600">Esta oferta expiró</span>';
-        return;
-      }
+      if(diff<=0){expireCard();clearInterval(timer);return;}
       const d=Math.floor(diff/864e5);
       const h=Math.floor((diff%864e5)/36e5);
       const m=Math.floor((diff%36e5)/6e4);
@@ -2257,11 +2269,10 @@ function initCountdowns(){
       cd.querySelector('[data-cd="h"]').textContent=String(h).padStart(2,'0');
       cd.querySelector('[data-cd="m"]').textContent=String(m).padStart(2,'0');
       cd.querySelector('[data-cd="s"]').textContent=String(s).padStart(2,'0');
-      // urgente si quedan menos de 3 días
       cd.classList.toggle('urgente',d<3);
     }
     tick();
-    setInterval(tick,1000);
+    const timer=setInterval(tick,1000);
   });
 }
 initCountdowns();

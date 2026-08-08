@@ -11,6 +11,10 @@ function doGet(e) {
     return handleContacto(e.parameter);
   }
 
+  if (action === 'ofertaExpire') {
+    return handleOfertaExpire(e.parameter);
+  }
+
   return respond({ ok: false, error: 'Acción no reconocida' });
 }
 
@@ -85,6 +89,65 @@ function handleContacto(p) {
   } catch (err) {
     return respond({ ok: false, error: err.toString() });
   }
+}
+
+function handleOfertaExpire(p) {
+  try {
+    const titulo = (p.titulo || '').trim();
+    const deadline = p.deadline || '';
+    if (!titulo) return respond({ ok: false, error: 'Falta titulo' });
+
+    const ss = SpreadsheetApp.openById(NEWSLETTER_SHEET_ID);
+    let sheet = ss.getSheetByName('Ofertas');
+
+    if (!sheet) {
+      sheet = ss.insertSheet('Ofertas');
+      const cols = ['Titulo', 'Deadline', 'Activo', 'Fecha expiración'];
+      const header = sheet.getRange(1, 1, 1, cols.length);
+      header.setValues([cols]);
+      header.setFontWeight('bold');
+      sheet.setFrozenRows(1);
+      [300, 180, 80, 200].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
+    }
+
+    const lastRow = sheet.getLastRow();
+    if (lastRow > 1) {
+      const data = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
+      for (let i = 0; i < data.length; i++) {
+        if (data[i][0] === titulo) {
+          if (data[i][2] !== 'No') {
+            sheet.getRange(i + 2, 3).setValue('No');
+            sheet.getRange(i + 2, 4).setValue(new Date());
+          }
+          return respond({ ok: true });
+        }
+      }
+    }
+
+    sheet.appendRow([titulo, deadline, 'No', new Date()]);
+    return respond({ ok: true });
+  } catch (err) {
+    return respond({ ok: false, error: err.toString() });
+  }
+}
+
+// Trigger diario automático — configurar en Apps Script:
+// Extensiones → Apps Script → Triggers → Agregar trigger → checkExpiredOffers → Time-driven → Day timer
+function checkExpiredOffers() {
+  const ss = SpreadsheetApp.openById(NEWSLETTER_SHEET_ID);
+  const sheet = ss.getSheetByName('Ofertas');
+  if (!sheet || sheet.getLastRow() < 2) return;
+
+  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  const now = new Date();
+
+  data.forEach((row, i) => {
+    const dl = new Date(row[1]);
+    if (row[2] !== 'No' && dl < now) {
+      sheet.getRange(i + 2, 3).setValue('No');
+      sheet.getRange(i + 2, 4).setValue(now);
+    }
+  });
 }
 
 function respond(data) {
