@@ -96,7 +96,7 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
   .cat-logo svg{height:22px}
   .cat-logo-div{display:none}
   /* Drawer lateral */
-  .cat-items{position:fixed;top:0;right:0;bottom:0;width:78vw;max-width:300px;background:#f8faf9;box-shadow:-6px 0 32px rgba(0,0,0,.18);flex-direction:column;gap:0;z-index:200;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;overflow-x:hidden;padding-top:0;scrollbar-width:none}
+  .cat-items{position:fixed;top:0;right:0;bottom:0;width:78vw;max-width:300px;background:#f8faf9;box-shadow:-6px 0 32px rgba(0,0,0,.18);flex-direction:column;align-items:stretch;gap:0;z-index:200;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;overflow-x:hidden;padding-top:0;scrollbar-width:none}
   .cat-items::-webkit-scrollbar{display:none}
   .cat-items.open{transform:translateX(0)}
   .cat-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(2px)}
