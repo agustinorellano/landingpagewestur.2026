@@ -2255,8 +2255,6 @@ function initCountdowns(){
           if(allHidden){const sec=document.getElementById('ofertas');if(sec)sec.style.display='none';}
         },50);
       },400);
-      const titulo=card.querySelector('h3');
-      if(titulo)fetch(NEWSLETTER_URL+'?action=ofertaExpire&titulo='+encodeURIComponent(titulo.textContent.trim())+'&deadline='+encodeURIComponent(cd.dataset.deadline)).catch(()=>{});
     }
     function tick(){
       const diff=deadline-Date.now();
