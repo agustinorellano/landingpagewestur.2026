@@ -112,12 +112,12 @@ body{font-family:var(--f-u);color:var(--txt);background:var(--w);overflow-x:hidd
   .mob-drawer-hd{display:flex;flex-direction:column;padding:56px 22px 18px;background:linear-gradient(155deg,#162e22 0%,#1F4D3A 100%);flex-shrink:0;margin-bottom:6px}
   .mob-drawer-brand{font-family:var(--f-d);font-size:24px;font-weight:800;color:#fff;letter-spacing:.5px}
   .cat-bar{position:fixed}
-  /* Botón hamburguesa */
-  .cat-mob-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;margin-left:auto;padding:8px 10px;background:none;border:none;cursor:pointer;flex-shrink:0}
-  .cat-mob-toggle span{display:block;width:22px;height:1.5px;background:var(--txt);border-radius:2px;transition:transform .25s, opacity .2s, width .2s}
-  .cat-mob-toggle.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-  .cat-mob-toggle.open span:nth-child(2){opacity:0;width:0}
-  .cat-mob-toggle.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+  /* Botón tres puntos */
+  .cat-mob-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.5px;margin-left:auto;padding:8px 10px;background:none;border:none;cursor:pointer;flex-shrink:0}
+  .cat-mob-toggle span{display:block;width:4px;height:4px;background:var(--txt);border-radius:50%;transition:opacity .2s,transform .25s}
+  .cat-mob-toggle.open span:nth-child(1){transform:translateY(8.5px) scaleX(4);border-radius:2px;height:1.5px}
+  .cat-mob-toggle.open span:nth-child(2){opacity:0;transform:scale(0)}
+  .cat-mob-toggle.open span:nth-child(3){transform:translateY(-8.5px) scaleX(4);border-radius:2px;height:1.5px}
   .cat-mob-label{display:none}
 }
 @media(min-width:769px){.cat-mob-toggle{display:none}.cat-overlay{display:none}.mob-drawer-hd{display:none}.mob-drawer-ft{display:none}}
