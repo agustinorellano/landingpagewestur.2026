@@ -9,10 +9,11 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d2518;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;color:#fff}
   .logo{margin-bottom:48px}
-  .logo-wrap{background:#fff;border-radius:14px;padding:14px 28px;display:inline-block}
-  .logo img{height:48px;width:auto;display:block}
+  .logo-wrap{background:#fff;border-radius:14px;padding:16px 36px;display:inline-block}
+  .logo img{height:68px;width:auto;display:block}
   .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center;backdrop-filter:blur(12px)}
-  .icon{font-size:48px;margin:0 auto 24px;line-height:1;text-align:center}
+  .icon{width:60px;height:60px;margin:0 auto 28px;display:flex;align-items:center;justify-content:center}
+  .icon svg{width:52px;height:52px}
   h1{font-size:22px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:-.2px}
   p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:32px}
   .divider{width:40px;height:2px;background:linear-gradient(90deg,#2d7a50,#7ec8a0);border-radius:2px;margin:0 auto 28px}
@@ -37,7 +38,16 @@
 </div>
 
 <div class="card">
-  <div class="icon">🚧</div>
+  <div class="icon">
+    <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- mango -->
+      <rect x="28" y="26" width="7" height="20" rx="3.5" transform="rotate(-45 28 26)" fill="#7ec8a0" opacity=".85"/>
+      <!-- cabeza del martillo -->
+      <rect x="6" y="8" width="22" height="13" rx="4" fill="#fff" opacity=".95"/>
+      <!-- detalle lateral -->
+      <rect x="24" y="10" width="6" height="9" rx="2.5" fill="#7ec8a0" opacity=".7"/>
+    </svg>
+  </div>
   <h1>Estamos actualizando la página</h1>
   <div class="divider"></div>
   <p>Estamos trabajando para traerte una experiencia aún mejor. Volvemos en breve con novedades y nuevos destinos.</p>
